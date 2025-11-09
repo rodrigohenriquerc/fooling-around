@@ -25,7 +25,7 @@ export function TrackingProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     async function storeToggleState() {
       if (!state) return;
-      await TrackingStorage.toggle(state);
+      await TrackingStorage.setState(state);
     }
 
     storeToggleState();

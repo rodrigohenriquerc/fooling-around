@@ -1,7 +1,7 @@
 import { Tracking } from "@/types/Tracking.types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-async function toggle(state: Tracking["state"]) {
+async function setState(state: Tracking["state"]) {
   await AsyncStorage.setItem("@tracking/state", state);
 }
 
@@ -13,4 +13,4 @@ async function getState() {
   return "off";
 }
 
-export default { toggle, getState };
+export default { setState, getState };

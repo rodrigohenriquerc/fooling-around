@@ -1,4 +1,4 @@
-import { TrackingContext } from "@/providers/Tracking/TrackingProvider";
+import { TrackingContext } from "@/providers/TrackingProvider";
 import { useContext } from "react";
 
 export function useTracking() {

@@ -5,7 +5,7 @@ import TrackingStorage from "@/storage/TrackingStorage";
 import { TrackingContext } from "./TrackingContext";
 
 export function TrackingProvider({ children }: PropsWithChildren) {
-  const [state, setState] = useState<TrackingState>();
+  const [state, setState] = useState<TrackingState>("off");
   const [isInitialized, setIsInitialized] = useState(false);
 
   function toggle() {

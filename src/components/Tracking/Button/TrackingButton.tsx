@@ -1,14 +1,15 @@
 import { Pressable, Text } from "react-native";
 import styles from "./TrackingButton.styles";
-import type { TrackingButtonProps } from "./TrackingButton.types";
+import { useTracking } from "@/hooks/useTracking";
 
-export default function TrackingButton({
-  onPress,
-  state,
-}: TrackingButtonProps) {
+export default function TrackingButton() {
+  const tracking = useTracking();
+
   return (
-    <Pressable onPress={onPress} style={styles.container}>
-      <Text style={styles.label}>{{ off: "START", on: "STOP" }[state]}</Text>
+    <Pressable onPress={tracking.toggle} style={styles.container}>
+      <Text style={styles.label}>
+        {{ off: "START", on: "STOP" }[tracking.state]}
+      </Text>
     </Pressable>
   );
 }

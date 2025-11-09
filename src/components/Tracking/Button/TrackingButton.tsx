@@ -1,6 +1,6 @@
 import { Pressable, Text } from "react-native";
 import styles from "./TrackingButton.styles";
-import { useTracking } from "@/hooks/useTracking";
+import { useTracking } from "@/contexts/Tracking";
 
 export default function TrackingButton() {
   const tracking = useTracking();

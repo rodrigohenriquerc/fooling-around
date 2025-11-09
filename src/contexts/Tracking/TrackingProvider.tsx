@@ -1,9 +1,10 @@
-import { createContext, PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 
-import { Tracking, TrackingState } from "@/types/Tracking.types";
+import { TrackingState } from "@/types/Tracking.types";
 import TrackingStorage from "@/storage/TrackingStorage";
+import { TrackingContext } from "./TrackingContext";
 
-export default function TrackingProvider({ children }: PropsWithChildren) {
+export function TrackingProvider({ children }: PropsWithChildren) {
   const [state, setState] = useState<TrackingState>();
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -36,5 +37,3 @@ export default function TrackingProvider({ children }: PropsWithChildren) {
     </TrackingContext.Provider>
   );
 }
-
-export const TrackingContext = createContext<Tracking | null>(null);

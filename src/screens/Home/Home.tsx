@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import HomeStyles from "./Home.styles";
+import styles from "./Home.styles";
 import TrackingButton from "@/components/Tracking/Button/TrackingButton";
 import { useState } from "react";
 
@@ -11,7 +11,7 @@ export default function Home() {
   };
 
   return (
-    <View style={HomeStyles.container}>
+    <View style={styles.container}>
       <TrackingButton state={trackingState} onPress={toggleTracking} />
     </View>
   );

@@ -1,4 +1,6 @@
 export interface Tracking {
-  state: "on" | "off";
+  state: TrackingState;
   toggle: () => void;
 }
+
+export type TrackingState = "on" | "off";

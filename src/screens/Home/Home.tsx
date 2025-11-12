@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View } from "react-native";
 
-import * as Device from "@/device";
+import DeviceLocationWatcher from "@/device/location";
 
 import { TrackingButton } from "@/components/Tracking";
 
@@ -13,10 +13,10 @@ export default function Home() {
   const onPressTrackingButtonHandler = async () => {
     try {
       if (state === "off") {
-        await Device.startWatching();
+        await DeviceLocationWatcher.startWatching();
         setState("on");
       } else {
-        await Device.stopWatching();
+        await DeviceLocationWatcher.stopWatching();
         setState("off");
       }
     } catch (error) {

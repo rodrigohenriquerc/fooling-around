@@ -32,6 +32,15 @@ export default class LocationLog extends Model {
   @field("mocked")
   mocked!: boolean;
 
+  @field("app_state")
+  appState?: "active" | "background" | "inactive";
+
+  @field("event_id")
+  eventId!: string;
+
+  @field("task_name")
+  taskName!: string;
+
   @readonly
   @date("created_at")
   createdAt!: Date;

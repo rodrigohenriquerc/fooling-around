@@ -15,22 +15,22 @@ export default class LocationLog extends Model {
   timestamp!: number;
 
   @field("accuracy")
-  accuracy!: number;
+  accuracy!: number | null;
 
   @field("speed")
-  speed!: number;
+  speed!: number | null;
 
   @field("heading")
-  heading!: number;
+  heading!: number | null;
 
   @field("altitude")
-  altitude!: number;
+  altitude!: number | null;
 
   @field("altitude_accuracy")
-  altitudeAccuracy!: number;
+  altitudeAccuracy!: number | null;
 
   @field("mocked")
-  mocked!: boolean;
+  mocked?: boolean;
 
   @field("app_state")
   appState?: "active" | "background" | "inactive";

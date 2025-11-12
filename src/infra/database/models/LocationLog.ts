@@ -1,6 +1,6 @@
 import { Model } from "@nozbe/watermelondb";
 
-import { date, field } from "@nozbe/watermelondb/decorators";
+import { date, field, readonly } from "@nozbe/watermelondb/decorators";
 
 export default class LocationLog extends Model {
   static table = "location_logs";
@@ -32,6 +32,7 @@ export default class LocationLog extends Model {
   @field("mocked")
   mocked!: boolean;
 
+  @readonly
   @date("created_at")
   createdAt!: Date;
 }

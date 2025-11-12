@@ -1,6 +1,8 @@
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { requestForegroundPermissions } from "./device-location-permissions";
+import database from "@/infra/database";
+import LocationLog from "@/infra/database/models/LocationLog";
 
 const FOOLING_BG_TASK = "FOOLING_BG_TASK";
 
@@ -62,7 +64,33 @@ TaskManager.defineTask<FoolingAroundTaskData>(
       throw new Error("Didn't receive any location.");
     }
 
-    DeviceLocationWatcher.publish("update", { data, executionInfo });
+    try {
+      await database.write(async () => {
+        const newLogs = data.locations.map((location) => {
+          database.get<LocationLog>("location_logs").prepareCreate((log) => {
+            log.latitude = location.coords.latitude;
+            log.longitude = location.coords.longitude;
+            log.timestamp = location.timestamp;
+            log.accuracy = location.coords.accuracy;
+            log.speed = location.coords.speed;
+            log.heading = location.coords.heading;
+            log.altitude = location.coords.altitude;
+            log.altitudeAccuracy = location.coords.altitudeAccuracy;
+            log.mocked = location.mocked;
+            log.appState = executionInfo.appState;
+            log.eventId = executionInfo.eventId;
+            log.taskName = executionInfo.taskName;
+          });
+        });
+
+        await database.batch(...newLogs);
+      });
+    } catch (error) {
+      console.error(
+        `Location log creation failed in task ${FOOLING_BG_TASK}:`,
+        error,
+      );
+    }
   },
 );
 

@@ -6,6 +6,9 @@
     "start": "expo start",
     "android": "expo run:android --device Better_Phone_API_35",
     "ios": "expo run:ios",
+    "prebuild": "expo prebuild --clean",
+    "prebuild:android": "expo prebuild --clean --platform android",
+    "prebuild:ios": "expo prebuild --clean --platform ios",
     "web": "expo start --web",
     "lint": "expo lint",
     "preinstall": "npx only-allow yarn"

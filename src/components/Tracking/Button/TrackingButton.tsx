@@ -4,7 +4,7 @@ import { TrackingButtonProps } from "./TrackingButton.types";
 
 export function TrackingButton({ state, onPress }: TrackingButtonProps) {
   return (
-    <Pressable onPress={onPress} style={styles.container}>
+    <Pressable onPress={onPress} style={styles.button}>
       <Text style={styles.label}>{{ off: "START", on: "STOP" }[state]}</Text>
     </Pressable>
   );

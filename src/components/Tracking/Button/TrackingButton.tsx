@@ -1,8 +1,13 @@
 import { TouchableOpacity } from "react-native";
-import styles from "./TrackingButton.styles";
-import { TrackingButtonProps } from "./TrackingButton.types";
+
 import Entypo from "@expo/vector-icons/Entypo";
 import { IconProps } from "@expo/vector-icons/build/createIconSet";
+
+import { colors } from "@/styles/theme";
+
+import { TrackingButtonProps } from "./TrackingButton.types";
+
+import styles from "./TrackingButton.styles";
 
 export function TrackingButton({ state, onPress }: TrackingButtonProps) {
   const iconPropsByState: Record<
@@ -25,7 +30,7 @@ export function TrackingButton({ state, onPress }: TrackingButtonProps) {
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.btn}>
-      <Entypo size={48} color="#242124" {...iconPropsByState[state]} />
+      <Entypo size={48} color={colors.primary} {...iconPropsByState[state]} />
     </TouchableOpacity>
   );
 }

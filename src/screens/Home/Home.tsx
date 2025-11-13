@@ -1,23 +1,49 @@
-import { useState } from "react";
-import { View } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+
+import { TrackingStorage } from "@/infra/storage/tracking";
+
+import { TrackingState } from "@/types/tracking.types";
 
 import { TrackingButton } from "@/components/Tracking";
+
+import { colors } from "@/styles/theme";
 
 import styles from "./Home.styles";
 
 export default function Home() {
-  const [trackingState, setTrackingState] = useState<"on" | "off">("off");
+  const [trackingState, setTrackingState] = useState<
+    "on" | "off" | undefined
+  >();
 
-  const onPressTrackingButtonHandler = async () => {
-    setTrackingState((prev) => (prev === "off" ? "on" : "off"));
+  const onPressTrackingButtonHandler = async (state: TrackingState) => {
+    try {
+      await TrackingStorage.setState(state);
+      setTrackingState(state);
+    } catch (error) {
+      console.error("Error handling tracking button press:", error);
+    }
   };
+
+  useEffect(() => {
+    const initializeTrackingState = async () => {
+      const storedTrackingState = await TrackingStorage.getState();
+      setTrackingState(storedTrackingState ?? "off");
+    };
+
+    if (!trackingState) initializeTrackingState();
+  }, [trackingState]);
 
   return (
     <View style={styles.container}>
-      <TrackingButton
-        state={trackingState}
-        onPress={onPressTrackingButtonHandler}
-      />
+      {trackingState ? (
+        <TrackingButton
+          state={trackingState}
+          onPress={onPressTrackingButtonHandler}
+        />
+      ) : (
+        <ActivityIndicator color={colors.white} size="large" />
+      )}
     </View>
   );
 }

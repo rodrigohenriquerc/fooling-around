@@ -28,8 +28,12 @@ export function TrackingButton({ state, onPress }: TrackingButtonProps) {
     },
   };
 
+  const onPressHandler = () => {
+    onPress(state === "off" ? "on" : "off");
+  };
+
   return (
-    <TouchableOpacity onPress={onPress} style={styles.btn}>
+    <TouchableOpacity onPress={onPressHandler} style={styles.btn}>
       <Entypo size={48} color={colors.primary} {...iconPropsByState[state]} />
     </TouchableOpacity>
   );

@@ -1,7 +1,9 @@
 import { LocationObject } from "expo-location";
 
 import database from "@/infra/database";
-import LocationEventModel from "@/infra/database/models/LocationEventModel";
+import { LocationEventModel } from "@/infra/database/models";
+
+export const LocationEventRepository = { createLocationLog };
 
 async function createLocationLog(
   locations: LocationObject[],
@@ -34,5 +36,3 @@ async function createLocationLog(
     console.error(`Location log creation failed:`, error);
   }
 }
-
-export default { createLocationLog };

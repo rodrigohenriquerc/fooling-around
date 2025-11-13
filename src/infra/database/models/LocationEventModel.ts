@@ -2,7 +2,7 @@ import { Model } from "@nozbe/watermelondb";
 
 import { date, field, readonly } from "@nozbe/watermelondb/decorators";
 
-export default class LocationEventModel extends Model {
+export class LocationEventModel extends Model {
   static table = "location_events";
 
   @field("latitude")

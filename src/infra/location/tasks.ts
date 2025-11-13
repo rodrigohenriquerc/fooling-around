@@ -1,6 +1,6 @@
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
-import LocationEventRepository from "@/infra/database/repositories/LocationEventRepository";
+import { LocationEventRepository } from "@/infra/database/repositories";
 
 export const LOCATION_TRACKING_UPDATE_TASK = "LOCATION_TRACKING_UPDATE_TASK";
 

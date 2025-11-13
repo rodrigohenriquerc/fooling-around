@@ -1,18 +1,15 @@
 import { StyleSheet } from "react-native";
 
+const BTN_SIZE = 100;
+
 export default StyleSheet.create({
-  button: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+  btn: {
+    width: BTN_SIZE,
+    height: BTN_SIZE,
+    borderRadius: BTN_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
-  },
-  button_on: {
-    backgroundColor: "#FE5E41",
-  },
-  button_off: {
-    backgroundColor: "#00A878",
+    backgroundColor: "white",
   },
   label: {
     fontWeight: "bold",

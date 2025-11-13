@@ -8,5 +8,5 @@ This is a project to play around with mobile development using React Native and 
 
 ### Track Location
 
-- Start/stop tracking location by pressing on a button
-- Location data collected will be stored in a local database
+- Control location tracking through a button
+- Save the collected data in a local database

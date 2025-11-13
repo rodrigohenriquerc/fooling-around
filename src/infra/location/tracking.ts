@@ -9,21 +9,25 @@ const LOCATION_TRACKING_CONFIG: Location.LocationTaskOptions = {
   },
 };
 
-export async function startTracking() {
-  try {
-    await Location.startLocationUpdatesAsync(
-      LOCATION_TRACKING_UPDATE_TASK,
-      LOCATION_TRACKING_CONFIG,
-    );
-  } catch (error) {
-    throw new Error(`Tracking location failed to start: ${error}.`);
+export const LocationTracking = (() => {
+  async function startTracking() {
+    try {
+      await Location.startLocationUpdatesAsync(
+        LOCATION_TRACKING_UPDATE_TASK,
+        LOCATION_TRACKING_CONFIG,
+      );
+    } catch (error) {
+      throw new Error(`Tracking location failed to start: ${error}.`);
+    }
   }
-}
 
-export async function stopTracking() {
-  try {
-    await Location.stopLocationUpdatesAsync(LOCATION_TRACKING_UPDATE_TASK);
-  } catch (error) {
-    throw new Error(`Tracking location failed to stop: ${error}.`);
+  async function stopTracking() {
+    try {
+      await Location.stopLocationUpdatesAsync(LOCATION_TRACKING_UPDATE_TASK);
+    } catch (error) {
+      throw new Error(`Tracking location failed to stop: ${error}.`);
+    }
   }
-}
+
+  return { startTracking, stopTracking };
+})();

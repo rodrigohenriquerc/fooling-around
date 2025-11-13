@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 
 import { TrackingStorage } from "@/infra/storage/tracking";
+import { LocationTracking } from "@/infra/location/tracking";
 
 import { TrackingState } from "@/types/tracking.types";
 
@@ -18,6 +19,12 @@ export default function Home() {
 
   const onPressTrackingButtonHandler = async (state: TrackingState) => {
     try {
+      if (state === "on") {
+        await LocationTracking.startTracking();
+      } else {
+        await LocationTracking.stopTracking();
+      }
+
       await TrackingStorage.setState(state);
       setTrackingState(state);
     } catch (error) {

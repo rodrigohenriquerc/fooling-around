@@ -13,7 +13,7 @@ async function createLocationLog(
     await database.write(async () => {
       const newLogs = locations.map((location) => {
         return database
-          .get<LocationEventModel>("location_logs")
+          .get<LocationEventModel>("location_events")
           .prepareCreate((log) => {
             log.latitude = location.coords.latitude;
             log.longitude = location.coords.longitude;

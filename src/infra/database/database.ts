@@ -3,7 +3,7 @@ import { Database } from "@nozbe/watermelondb";
 
 import schema from "./schema";
 import migrations from "./migrations";
-import LocationLogModel from "./models/LocationLogModel";
+import LocationEventModel from "./models/LocationEventModel";
 
 const adapter = new SQLiteAdapter({
   schema,
@@ -16,5 +16,5 @@ const adapter = new SQLiteAdapter({
 
 export default new Database({
   adapter,
-  modelClasses: [LocationLogModel],
+  modelClasses: [LocationEventModel],
 });

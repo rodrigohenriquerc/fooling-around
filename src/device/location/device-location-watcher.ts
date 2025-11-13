@@ -1,7 +1,7 @@
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { requestForegroundPermissions } from "./device-location-permissions";
-import LocationLogRepository from "@/infra/database/repositories/LocationLogRepository";
+import LocationEventRepository from "@/infra/database/repositories/LocationEventRepository";
 
 const FOOLING_BG_TASK = "FOOLING_BG_TASK";
 
@@ -49,7 +49,7 @@ TaskManager.defineTask<FoolingAroundTaskData>(
       throw new Error("Didn't receive any location.");
     }
 
-    await LocationLogRepository.createLocationLog(
+    await LocationEventRepository.createLocationLog(
       data.locations,
       executionInfo,
     );

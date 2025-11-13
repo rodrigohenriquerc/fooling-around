@@ -4,7 +4,7 @@ export default appSchema({
   version: 1,
   tables: [
     tableSchema({
-      name: "location_logs",
+      name: "location_events",
       columns: [
         { name: "latitude", type: "number" },
         { name: "longitude", type: "number" },

@@ -1,17 +1,17 @@
 import { LocationObject } from "expo-location";
 
 import database from "@/infra/database";
-import LocationLogModel from "@/infra/database/models/LocationLogModel";
+import LocationEventModel from "@/infra/database/models/LocationEventModel";
 
 async function createLocationLog(
   locations: LocationObject[],
-  executionInfo: Pick<LocationLogModel, "appState" | "eventId" | "taskName">,
+  executionInfo: Pick<LocationEventModel, "appState" | "eventId" | "taskName">,
 ) {
   try {
     await database.write(async () => {
       const newLogs = locations.map((location) => {
         return database
-          .get<LocationLogModel>("location_logs")
+          .get<LocationEventModel>("location_logs")
           .prepareCreate((log) => {
             log.latitude = location.coords.latitude;
             log.longitude = location.coords.longitude;

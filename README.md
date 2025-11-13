@@ -1,8 +1,4 @@
-# Fooling Around
-
-## Description
-
-This is a project to play around with mobile development using React Native and Expo.
+Playing around with geolocation in mobile devices.
 
 ## Features
 

@@ -34,7 +34,7 @@ export function TrackingButton({ state, onPress }: TrackingButtonProps) {
 
   return (
     <TouchableOpacity onPress={onPressHandler} style={styles.btn}>
-      <Entypo size={48} color={colors.primary} {...iconPropsByState[state]} />
+      <Entypo size={48} color={colors.secondary} {...iconPropsByState[state]} />
     </TouchableOpacity>
   );
 }

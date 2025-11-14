@@ -49,7 +49,7 @@ export default function Home() {
           onPress={onPressTrackingButtonHandler}
         />
       ) : (
-        <ActivityIndicator color={colors.white} size="large" />
+        <ActivityIndicator color={colors.primary} size="large" />
       )}
     </View>
   );

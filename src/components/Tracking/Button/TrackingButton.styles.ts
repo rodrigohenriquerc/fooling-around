@@ -11,6 +11,6 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: BTN_SIZE / 2,
-    backgroundColor: colors.white,
+    backgroundColor: colors.primary,
   },
 });

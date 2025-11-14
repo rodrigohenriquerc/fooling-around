@@ -13,9 +13,4 @@ export default StyleSheet.create({
     borderRadius: BTN_SIZE / 2,
     backgroundColor: colors.white,
   },
-  label: {
-    fontSize: 48,
-    fontWeight: "bold",
-    color: colors.white,
-  },
 });

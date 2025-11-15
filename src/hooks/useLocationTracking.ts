@@ -51,7 +51,13 @@ export const useLocationTracking = () => {
 
         const lineStringLength = turf.length(lineString, { units: "meters" });
 
-        setDistanceTraveled((prev) => prev + lineStringLength);
+        const storedDistance = await TrackingStorage.getDistance();
+
+        const newDistance = storedDistance + lineStringLength;
+
+        await TrackingStorage.setDistance(newDistance);
+
+        setDistanceTraveled(newDistance);
       }
 
       const {
@@ -77,7 +83,12 @@ export const useLocationTracking = () => {
         setTrackingState("on");
       } else {
         await LocationTracking.stopTracking();
+        await TrackingStorage.setDistance(0);
+
         setTrackingState("off");
+        setDistanceTraveled(0);
+
+        lastPositionRef.current = null;
       }
 
       await TrackingStorage.setState(state);

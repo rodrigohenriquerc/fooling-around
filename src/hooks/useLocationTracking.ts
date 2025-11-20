@@ -82,6 +82,7 @@ export const useLocationTracking = () => {
         await TrackingsRepository.finishTracking();
         setTrackingId(undefined);
         setTrackingState("off");
+        setTrackingDistance(0);
       }
     } catch (error) {
       console.error(error);

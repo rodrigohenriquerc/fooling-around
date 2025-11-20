@@ -1,69 +1,23 @@
-import * as turf from "@turf/turf";
 import { useEventListener } from "expo";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { LocationEventsRepository } from "@/infra/database/repositories";
+import {
+  LocationEventsRepository,
+  TrackingsRepository,
+} from "@/infra/database/repositories";
 import {
   LocationTracking,
   LocationTrackingEvent,
   LocationTrackingEventEmitter,
 } from "@/infra/location/tracking";
-import { TrackingStorage } from "@/infra/storage/tracking";
-import { Coordinates } from "@/types/location.types";
 import { TrackingState } from "@/types/tracking.types";
 
 export const useLocationTracking = () => {
+  const [trackingId, setTrackingId] = useState<string | undefined>();
+
   const [trackingState, setTrackingState] = useState<
     TrackingState | undefined
   >();
-
-  const lastPositionRef = useRef<Coordinates | null>(null);
-
-  const [distanceTraveled, setDistanceTraveled] = useState(0);
-
-  const locationTrackingEventListener = async (
-    event: LocationTrackingEvent,
-  ) => {
-    try {
-      await LocationEventsRepository.createLocationLog(
-        event.data,
-        event.executionInfo,
-      );
-
-      if (lastPositionRef.current) {
-        const lastPosition = [
-          lastPositionRef.current?.longitude,
-          lastPositionRef.current?.latitude,
-        ];
-
-        const lineString = turf.lineString([
-          lastPosition,
-          ...event.data.map(({ coords: { latitude, longitude } }) => [
-            longitude,
-            latitude,
-          ]),
-        ]);
-
-        const lineStringLength = turf.length(lineString, { units: "meters" });
-
-        const storedDistance = await TrackingStorage.getDistance();
-
-        const newDistance = storedDistance + lineStringLength;
-
-        await TrackingStorage.setDistance(newDistance);
-
-        setDistanceTraveled(newDistance);
-      }
-
-      const {
-        coords: { latitude, longitude },
-      } = event.data.at(-1)!;
-
-      lastPositionRef.current = { latitude, longitude };
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEventListener(
     LocationTrackingEventEmitter,
@@ -71,35 +25,60 @@ export const useLocationTracking = () => {
     locationTrackingEventListener,
   );
 
-  const updateTrackingState = async (state: TrackingState) => {
+  const updateTrackingState = async (newState: TrackingState) => {
+    console.log(newState);
+
     try {
-      if (state === "on") {
+      if (newState === "on") {
+        const tracking = await TrackingsRepository.createTracking();
         await LocationTracking.startTracking();
+        setTrackingId(tracking.id);
         setTrackingState("on");
       } else {
         await LocationTracking.stopTracking();
-        await TrackingStorage.setDistance(0);
-
+        await TrackingsRepository.finishTracking();
+        setTrackingId(undefined);
         setTrackingState("off");
-        setDistanceTraveled(0);
-
-        lastPositionRef.current = null;
       }
-
-      await TrackingStorage.setState(state);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    const initializeTrackingState = async () => {
-      const storedTrackingState = await TrackingStorage.getState();
-      setTrackingState(storedTrackingState ?? "off");
+    const initialize = async () => {
+      const tracking = await TrackingsRepository.getCurrentTracking();
+
+      if (tracking) {
+        setTrackingId(tracking.id);
+        setTrackingState("on");
+      } else {
+        setTrackingState("off");
+      }
     };
 
-    initializeTrackingState();
+    initialize();
   }, []);
 
-  return { trackingState, updateTrackingState, distanceTraveled };
+  return { trackingId, trackingState, updateTrackingState };
 };
+
+async function locationTrackingEventListener(event: LocationTrackingEvent) {
+  try {
+    const tracking = await TrackingsRepository.getCurrentTracking();
+
+    if (!tracking) {
+      throw new Error("The listener was called, but no tracking is on.");
+    }
+
+    await LocationEventsRepository.createLocationLog(
+      tracking.id,
+      event.data,
+      event.executionInfo,
+    );
+  } catch (error) {
+    console.error(
+      `[useLocationTracking] 'locationTrackingEventListener' failed: ${error}`,
+    );
+  }
+}

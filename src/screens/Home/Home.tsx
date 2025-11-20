@@ -1,6 +1,6 @@
 import { ActivityIndicator, View } from "react-native";
 
-import { TrackingButton, TrackingDistance } from "@/components/Tracking";
+import { TrackingButton } from "@/components/Tracking";
 import { useLocationTracking } from "@/hooks/useLocationTracking";
 import { colors } from "@/styles";
 
@@ -13,12 +13,6 @@ export default function Home() {
     <View style={HomeStyles.container}>
       {locationTracking.trackingState ? (
         <>
-          {locationTracking.trackingState === "on" && (
-            <TrackingDistance>
-              {locationTracking.distanceTraveled}
-            </TrackingDistance>
-          )}
-
           <TrackingButton
             state={locationTracking.trackingState}
             onPress={locationTracking.updateTrackingState}

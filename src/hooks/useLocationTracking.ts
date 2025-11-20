@@ -2,7 +2,7 @@ import * as turf from "@turf/turf";
 import { useEventListener } from "expo";
 import { useEffect, useRef, useState } from "react";
 
-import { LocationEventRepository } from "@/infra/database/repositories";
+import { LocationEventsRepository } from "@/infra/database/repositories";
 import {
   LocationTracking,
   LocationTrackingEvent,
@@ -25,7 +25,7 @@ export const useLocationTracking = () => {
     event: LocationTrackingEvent,
   ) => {
     try {
-      await LocationEventRepository.createLocationLog(
+      await LocationEventsRepository.createLocationLog(
         event.data,
         event.executionInfo,
       );

@@ -3,7 +3,7 @@ import { LocationObject } from "expo-location";
 import database from "@/infra/database";
 import { LocationEventModel } from "@/infra/database/models";
 
-export const LocationEventRepository = { createLocationLog };
+export const LocationEventsRepository = { createLocationLog };
 
 async function createLocationLog(
   locations: LocationObject[],

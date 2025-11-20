@@ -1,1 +1,1 @@
-export * from "./LocationEventRepository";
+export * from "./LocationEventsRepository";

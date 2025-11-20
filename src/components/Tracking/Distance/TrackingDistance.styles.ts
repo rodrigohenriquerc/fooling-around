@@ -12,8 +12,8 @@ export const TrackingDistanceStyles = StyleSheet.create({
     color: colors.white,
   },
   measure: {
-    fontSize: 40,
+    fontSize: 32,
     fontWeight: "bold",
-    color: colors.white,
+    color: colors.gray,
   },
 });

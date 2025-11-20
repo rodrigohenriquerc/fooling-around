@@ -11,11 +11,11 @@
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
     "preinstall": "npx only-allow yarn",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "knip": "knip"
   },
   "dependencies": {
     "@nozbe/watermelondb": "^0.28.0",
-    "@react-native-async-storage/async-storage": "2.2.0",
     "@turf/turf": "^7.2.0",
     "expo": "~54.0.23",
     "expo-dev-client": "~6.0.17",
@@ -27,14 +27,16 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.28.0",
+    "@types/node": "^24.10.1",
     "@types/react": "~19.1.0",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "knip": "^5.70.1",
     "prettier": "^3.6.2",
-    "typescript": "~5.9.2"
+    "typescript": "^5.9.3"
   },
   "private": true
 }

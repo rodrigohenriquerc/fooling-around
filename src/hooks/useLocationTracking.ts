@@ -10,6 +10,7 @@ import {
   LocationTrackingEvent,
   LocationTrackingEventEmitter,
 } from "@/infra/location/tracking";
+import { Logger } from "@/infra/logs/logger";
 import { TrackingState } from "@/types/tracking.types";
 import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
 
@@ -38,7 +39,7 @@ export const useLocationTracking = () => {
       const totalDistance = calculateCoordinatesPathLength(coordinates);
       setTrackingDistance(totalDistance);
     } catch (error) {
-      console.error("Failed to calculate distance:", error);
+      Logger.error("Failed to calculate distance:", error);
     }
   };
 
@@ -58,7 +59,7 @@ export const useLocationTracking = () => {
 
       await updateDistance();
     } catch (error) {
-      console.error(
+      Logger.error(
         `[useLocationTracking] 'locationTrackingEventListener' failed: ${error}`,
       );
     }
@@ -85,7 +86,7 @@ export const useLocationTracking = () => {
         setTrackingDistance(0);
       }
     } catch (error) {
-      console.error(error);
+      Logger.error(error);
     }
   };
 

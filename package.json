@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@nozbe/watermelondb": "^0.28.0",
+    "@sentry/react-native": "^7.6.0",
     "@turf/turf": "^7.2.0",
     "expo": "~54.0.23",
     "expo-dev-client": "~6.0.17",

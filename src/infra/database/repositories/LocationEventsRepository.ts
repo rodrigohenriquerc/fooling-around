@@ -39,7 +39,6 @@ async function createLocationLog(
       await database.batch(...newLogs);
     });
   } catch (error) {
-    console.error(`Location log creation failed:`, error);
     throw new Error(
       `[LocationEventsRepository] 'createLocationLog' failed: ${error}`,
     );

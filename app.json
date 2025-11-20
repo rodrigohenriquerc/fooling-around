@@ -33,6 +33,14 @@
         {
           "isAndroidForegroundServiceEnabled": true
         }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "fooling-around",
+          "organization": "rodrigorg"
+        }
       ]
     ]
   }

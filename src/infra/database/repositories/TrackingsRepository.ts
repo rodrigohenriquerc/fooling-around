@@ -30,9 +30,7 @@ async function finishTracking() {
     return await database.write(async (writer) => {
       const currentTracking = await writer.callReader(getCurrentTracking);
 
-      if (!currentTracking) {
-        throw new Error("There is no current tracking to finish.");
-      }
+      if (!currentTracking) return;
 
       await currentTracking.update((tracking) => {
         tracking.finishedAt = new Date().toISOString();

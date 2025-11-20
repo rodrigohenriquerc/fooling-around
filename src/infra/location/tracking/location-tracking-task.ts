@@ -1,6 +1,8 @@
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 
+import { Logger } from "@/infra/logs/logger";
+
 import { LocationTrackingEventEmitter } from "./location-tracking-event-emitter";
 
 export const LocationTrackingTask = (() => {
@@ -17,7 +19,7 @@ export const LocationTrackingTask = (() => {
     locations: Location.LocationObject[];
   }>(TASK_NAME, async ({ data, error, executionInfo }) => {
     if (error) {
-      return console.error(`${TASK_NAME} error: ${error}.`);
+      return Logger.error(`${TASK_NAME} error: ${error}.`);
     }
 
     if (!data?.locations?.length) {

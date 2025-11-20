@@ -1,9 +1,13 @@
+import { Q } from "@nozbe/watermelondb";
 import { LocationObject } from "expo-location";
 
 import database from "@/infra/database";
 import { LocationEventModel } from "@/infra/database/models";
 
-export const LocationEventsRepository = { createLocationLog };
+export const LocationEventsRepository = {
+  createLocationLog,
+  getEventsByTrackingId,
+};
 
 async function createLocationLog(
   trackingId: string,
@@ -38,6 +42,21 @@ async function createLocationLog(
     console.error(`Location log creation failed:`, error);
     throw new Error(
       `[LocationEventsRepository] 'createLocationLog' failed: ${error}`,
+    );
+  }
+}
+
+async function getEventsByTrackingId(trackingId: string) {
+  try {
+    return await database.read(async () => {
+      return await database
+        .get<LocationEventModel>("location_events")
+        .query(Q.where("tracking_id", Q.eq(trackingId)))
+        .fetch();
+    });
+  } catch (error) {
+    throw new Error(
+      `[LocationEventsRepository] 'getEventsByTrackingId' failed: ${error}`,
     );
   }
 }

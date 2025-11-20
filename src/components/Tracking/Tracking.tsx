@@ -10,8 +10,6 @@ import { TrackingStyles } from "./Tracking.styles";
 export function Tracking() {
   const locationTracking = useLocationTracking();
 
-  const trackingDistance = null;
-
   if (!locationTracking.trackingState) {
     return (
       <View style={TrackingStyles.container}>
@@ -22,9 +20,9 @@ export function Tracking() {
 
   return (
     <View style={TrackingStyles.container}>
-      {trackingDistance && (
+      {locationTracking.trackingState === "on" && (
         <TrackingDistance style={TrackingStyles.trackingDistance}>
-          {trackingDistance}
+          {locationTracking.trackingDistance}
         </TrackingDistance>
       )}
       <TrackingButton

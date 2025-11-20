@@ -11,6 +11,7 @@ import {
   LocationTrackingEventEmitter,
 } from "@/infra/location/tracking";
 import { TrackingState } from "@/types/tracking.types";
+import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
 
 export const useLocationTracking = () => {
   const [trackingId, setTrackingId] = useState<string | undefined>();
@@ -18,6 +19,50 @@ export const useLocationTracking = () => {
   const [trackingState, setTrackingState] = useState<
     TrackingState | undefined
   >();
+
+  const [trackingDistance, setTrackingDistance] = useState<number>(0);
+
+  const updateDistance = async () => {
+    if (!trackingId) return;
+
+    try {
+      const events =
+        await LocationEventsRepository.getEventsByTrackingId(trackingId);
+      const sortedEvents = events.sort((a, b) => a.timestamp - b.timestamp);
+
+      const coordinates = sortedEvents.map((event) => ({
+        latitude: event.latitude,
+        longitude: event.longitude,
+      }));
+
+      const totalDistance = calculateCoordinatesPathLength(coordinates);
+      setTrackingDistance(totalDistance);
+    } catch (error) {
+      console.error("Failed to calculate distance:", error);
+    }
+  };
+
+  async function locationTrackingEventListener(event: LocationTrackingEvent) {
+    try {
+      const tracking = await TrackingsRepository.getCurrentTracking();
+
+      if (!tracking) {
+        throw new Error("The listener was called, but no tracking is on.");
+      }
+
+      await LocationEventsRepository.createLocationLog(
+        tracking.id,
+        event.data,
+        event.executionInfo,
+      );
+
+      await updateDistance();
+    } catch (error) {
+      console.error(
+        `[useLocationTracking] 'locationTrackingEventListener' failed: ${error}`,
+      );
+    }
+  }
 
   useEventListener(
     LocationTrackingEventEmitter,
@@ -58,25 +103,5 @@ export const useLocationTracking = () => {
     initialize();
   }, []);
 
-  return { trackingId, trackingState, updateTrackingState };
+  return { trackingId, trackingState, trackingDistance, updateTrackingState };
 };
-
-async function locationTrackingEventListener(event: LocationTrackingEvent) {
-  try {
-    const tracking = await TrackingsRepository.getCurrentTracking();
-
-    if (!tracking) {
-      throw new Error("The listener was called, but no tracking is on.");
-    }
-
-    await LocationEventsRepository.createLocationLog(
-      tracking.id,
-      event.data,
-      event.executionInfo,
-    );
-  } catch (error) {
-    console.error(
-      `[useLocationTracking] 'locationTrackingEventListener' failed: ${error}`,
-    );
-  }
-}

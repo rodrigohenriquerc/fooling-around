@@ -1,6 +1,5 @@
 import * as turf from "@turf/turf";
 import { useEventListener } from "expo";
-import { LocationObjectCoords } from "expo-location";
 import { useEffect, useRef, useState } from "react";
 
 import { LocationEventRepository } from "@/infra/database/repositories";
@@ -10,17 +9,15 @@ import {
   LocationTrackingEventEmitter,
 } from "@/infra/location/tracking";
 import { TrackingStorage } from "@/infra/storage/tracking";
+import { Coordinates } from "@/types/location.types";
 import { TrackingState } from "@/types/tracking.types";
 
 export const useLocationTracking = () => {
   const [trackingState, setTrackingState] = useState<
-    "on" | "off" | undefined
+    TrackingState | undefined
   >();
 
-  const lastPositionRef = useRef<Pick<
-    LocationObjectCoords,
-    "latitude" | "longitude"
-  > | null>(null);
+  const lastPositionRef = useRef<Coordinates | null>(null);
 
   const [distanceTraveled, setDistanceTraveled] = useState(0);
 

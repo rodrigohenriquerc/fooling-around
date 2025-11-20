@@ -5,11 +5,12 @@ import { TrackingDistanceProps } from "./TrackingDistance.types";
 
 export function TrackingDistance({
   children: distance,
+  style,
 }: TrackingDistanceProps) {
   const { value, measure } = formatDistance(distance);
 
   return (
-    <View style={TrackingDistanceStyles.container}>
+    <View style={[TrackingDistanceStyles.container, style]}>
       <Text style={TrackingDistanceStyles.value}>{value}</Text>
       <Text style={TrackingDistanceStyles.measure}>{measure}</Text>
     </View>

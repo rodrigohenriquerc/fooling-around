@@ -3,8 +3,16 @@ import { StyleSheet } from "react-native";
 import { colors } from "@/styles";
 
 export const TrackingDistanceStyles = StyleSheet.create({
-  distance: {
-    fontSize: 80,
+  container: {
+    alignItems: "center",
+  },
+  value: {
+    fontSize: 140,
+    fontWeight: "bold",
+    color: colors.white,
+  },
+  measure: {
+    fontSize: 40,
     fontWeight: "bold",
     color: colors.white,
   },

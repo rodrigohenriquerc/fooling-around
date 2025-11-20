@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/styles/theme";
+import { colors } from "@/styles";
 
 const BTN_SIZE = 100;
 

@@ -2,7 +2,7 @@ import { ActivityIndicator, View } from "react-native";
 
 import { TrackingButton, TrackingDistance } from "@/components/Tracking";
 import { useLocationTracking } from "@/hooks/useLocationTracking";
-import { colors } from "@/styles/theme";
+import { colors } from "@/styles";
 
 import { HomeStyles } from "./Home.styles";
 

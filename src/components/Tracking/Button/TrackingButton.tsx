@@ -2,7 +2,7 @@ import { IconProps } from "@expo/vector-icons/build/createIconSet";
 import Entypo from "@expo/vector-icons/Entypo";
 import { TouchableOpacity } from "react-native";
 
-import { colors } from "@/styles/theme";
+import { colors } from "@/styles";
 
 import { TrackingButtonStyles } from "./TrackingButton.styles";
 import { TrackingButtonProps } from "./TrackingButton.types";

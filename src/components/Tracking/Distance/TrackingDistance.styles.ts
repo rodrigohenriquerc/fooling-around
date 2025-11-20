@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "@/styles/theme";
+import { colors } from "@/styles";
 
 export const TrackingDistanceStyles = StyleSheet.create({
   distance: {

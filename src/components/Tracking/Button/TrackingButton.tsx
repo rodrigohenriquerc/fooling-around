@@ -7,7 +7,7 @@ import { colors } from "@/styles/theme";
 
 import { TrackingButtonProps } from "./TrackingButton.types";
 
-import styles from "./TrackingButton.styles";
+import { TrackingButtonStyles } from "./TrackingButton.styles";
 
 export function TrackingButton({ state, onPress }: TrackingButtonProps) {
   const iconPropsByState: Record<
@@ -33,7 +33,7 @@ export function TrackingButton({ state, onPress }: TrackingButtonProps) {
   };
 
   return (
-    <TouchableOpacity onPress={onPressHandler} style={styles.btn}>
+    <TouchableOpacity onPress={onPressHandler} style={TrackingButtonStyles.btn}>
       <Entypo size={48} color={colors.white} {...iconPropsByState[state]} />
     </TouchableOpacity>
   );

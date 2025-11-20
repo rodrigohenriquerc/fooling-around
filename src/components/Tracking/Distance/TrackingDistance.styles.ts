@@ -1,7 +1,7 @@
 import { colors } from "@/styles/theme";
 import { StyleSheet } from "react-native";
 
-export default StyleSheet.create({
+export const TrackingDistanceStyles = StyleSheet.create({
   distance: {
     fontSize: 80,
     fontWeight: "bold",

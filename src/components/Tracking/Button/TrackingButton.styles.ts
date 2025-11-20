@@ -4,7 +4,7 @@ import { colors } from "@/styles/theme";
 
 const BTN_SIZE = 100;
 
-export default StyleSheet.create({
+export const TrackingButtonStyles = StyleSheet.create({
   btn: {
     width: BTN_SIZE,
     height: BTN_SIZE,

@@ -12,7 +12,6 @@ export const LocationEventsRepository = {
 async function createLocationLog(
   trackingId: string,
   locations: LocationObject[],
-  executionInfo: Pick<LocationEventModel, "appState" | "eventId" | "taskName">,
 ) {
   try {
     await database.write(async () => {
@@ -29,10 +28,6 @@ async function createLocationLog(
             log.heading = location.coords.heading;
             log.altitude = location.coords.altitude;
             log.altitudeAccuracy = location.coords.altitudeAccuracy;
-            log.mocked = location.mocked;
-            log.appState = executionInfo.appState;
-            log.eventId = executionInfo.eventId;
-            log.taskName = executionInfo.taskName;
           });
       });
 

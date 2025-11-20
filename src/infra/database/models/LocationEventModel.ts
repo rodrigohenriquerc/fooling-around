@@ -48,22 +48,6 @@ export class LocationEventModel extends Model {
   @field("altitude_accuracy")
   altitudeAccuracy!: number | null;
 
-  @nochange
-  @field("mocked")
-  mocked?: boolean;
-
-  @nochange
-  @field("app_state")
-  appState?: "active" | "background" | "inactive";
-
-  @nochange
-  @field("event_id")
-  eventId!: string;
-
-  @nochange
-  @field("task_name")
-  taskName!: string;
-
   @readonly
   @date("created_at")
   createdAt!: Date;

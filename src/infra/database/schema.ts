@@ -4,8 +4,16 @@ export default appSchema({
   version: 1,
   tables: [
     tableSchema({
+      name: "trackings",
+      columns: [
+        { name: "created_at", type: "number" },
+        { name: "finished_at", type: "string", isOptional: true },
+      ],
+    }),
+    tableSchema({
       name: "location_events",
       columns: [
+        { name: "tracking_id", type: "string", isIndexed: true },
         { name: "latitude", type: "number" },
         { name: "longitude", type: "number" },
         { name: "timestamp", type: "number" },

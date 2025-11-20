@@ -2,7 +2,7 @@ import { Database } from "@nozbe/watermelondb";
 import SQLiteAdapter from "@nozbe/watermelondb/adapters/sqlite";
 
 import migrations from "./migrations";
-import { LocationEventModel } from "./models";
+import { LocationEventModel, TrackingModel } from "./models";
 import schema from "./schema";
 
 const adapter = new SQLiteAdapter({
@@ -16,5 +16,5 @@ const adapter = new SQLiteAdapter({
 
 export default new Database({
   adapter,
-  modelClasses: [LocationEventModel],
+  modelClasses: [LocationEventModel, TrackingModel],
 });

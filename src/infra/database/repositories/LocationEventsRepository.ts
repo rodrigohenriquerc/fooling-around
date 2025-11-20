@@ -6,6 +6,7 @@ import { LocationEventModel } from "@/infra/database/models";
 export const LocationEventsRepository = { createLocationLog };
 
 async function createLocationLog(
+  trackingId: string,
   locations: LocationObject[],
   executionInfo: Pick<LocationEventModel, "appState" | "eventId" | "taskName">,
 ) {
@@ -15,6 +16,7 @@ async function createLocationLog(
         return database
           .get<LocationEventModel>("location_events")
           .prepareCreate((log) => {
+            log.trackingId = trackingId;
             log.latitude = location.coords.latitude;
             log.longitude = location.coords.longitude;
             log.timestamp = location.timestamp;
@@ -34,5 +36,8 @@ async function createLocationLog(
     });
   } catch (error) {
     console.error(`Location log creation failed:`, error);
+    throw new Error(
+      `[LocationEventsRepository] 'createLocationLog' failed: ${error}`,
+    );
   }
 }

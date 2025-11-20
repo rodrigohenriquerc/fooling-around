@@ -1,5 +1,6 @@
-import { TrackingState } from "@/types/tracking.types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { TrackingState } from "@/types/tracking.types";
 
 export const TrackingStorage = (() => {
   const STATE_KEY = "@tracking/STATE";

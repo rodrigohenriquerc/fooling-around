@@ -1,4 +1,5 @@
 import * as Location from "expo-location";
+
 import { LocationTrackingTask } from "./location-tracking-task";
 
 export const LocationTracking = (() => {

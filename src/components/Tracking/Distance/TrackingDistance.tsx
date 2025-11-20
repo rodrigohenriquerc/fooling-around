@@ -1,6 +1,7 @@
 import { Text } from "react-native";
-import { TrackingDistanceProps } from "./TrackingDistance.types";
+
 import { TrackingDistanceStyles } from "./TrackingDistance.styles";
+import { TrackingDistanceProps } from "./TrackingDistance.types";
 
 export function TrackingDistance({ children }: TrackingDistanceProps) {
   const distance = () => {

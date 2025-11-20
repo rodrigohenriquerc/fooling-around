@@ -9,6 +9,7 @@
     "prebuild": "expo prebuild --clean",
     "prebuild:android": "expo prebuild --clean --platform android",
     "lint": "expo lint",
+    "lint:fix": "expo lint --fix",
     "preinstall": "npx only-allow yarn",
     "ios": "expo run:ios"
   },
@@ -31,6 +32,7 @@
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "prettier": "^3.6.2",
     "typescript": "~5.9.2"
   },

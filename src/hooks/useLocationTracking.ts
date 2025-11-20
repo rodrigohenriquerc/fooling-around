@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import * as turf from "@turf/turf";
 import { useEventListener } from "expo";
 import { LocationObjectCoords } from "expo-location";
+import { useEffect, useRef, useState } from "react";
 
 import { LocationEventRepository } from "@/infra/database/repositories";
 import {
@@ -9,10 +10,7 @@ import {
   LocationTrackingEventEmitter,
 } from "@/infra/location/tracking";
 import { TrackingStorage } from "@/infra/storage/tracking";
-
 import { TrackingState } from "@/types/tracking.types";
-
-import * as turf from "@turf/turf";
 
 export const useLocationTracking = () => {
   const [trackingState, setTrackingState] = useState<

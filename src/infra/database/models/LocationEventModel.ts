@@ -1,5 +1,4 @@
 import { Model } from "@nozbe/watermelondb";
-
 import { date, field, readonly } from "@nozbe/watermelondb/decorators";
 
 export class LocationEventModel extends Model {

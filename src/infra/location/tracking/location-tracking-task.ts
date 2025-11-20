@@ -24,8 +24,6 @@ export const LocationTrackingTask = (() => {
       return console.warn(`${TASK_NAME} data: ${data}.`);
     }
 
-    console.log("New event with id:", executionInfo.eventId);
-
     LocationTrackingEventEmitter.emit("location_update", {
       data: data.locations,
       executionInfo,

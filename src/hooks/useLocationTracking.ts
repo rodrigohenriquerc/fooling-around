@@ -26,8 +26,6 @@ export const useLocationTracking = () => {
   );
 
   const updateTrackingState = async (newState: TrackingState) => {
-    console.log(newState);
-
     try {
       if (newState === "on") {
         const tracking = await TrackingsRepository.createTracking();

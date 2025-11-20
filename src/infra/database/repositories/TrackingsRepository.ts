@@ -15,8 +15,6 @@ async function createTracking() {
     return await database.write(async (writer) => {
       const currentTracking = await writer.callReader(getCurrentTracking);
 
-      console.log("currentTracking:", currentTracking);
-
       if (currentTracking) {
         return currentTracking;
       }

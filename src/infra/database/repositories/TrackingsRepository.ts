@@ -7,7 +7,6 @@ export const TrackingsRepository = {
   createTracking,
   finishTracking,
   getCurrentTracking,
-  findTrackingById,
 };
 
 async function createTracking() {
@@ -53,18 +52,6 @@ async function getCurrentTracking() {
         .fetch();
 
       return selected[0];
-    });
-  } catch (error) {
-    throw new Error(
-      `[TrackingsRepository] 'getCurrentTracking' failed: ${error}`,
-    );
-  }
-}
-
-async function findTrackingById(id: string) {
-  try {
-    return await database.read(async () => {
-      return await database.get<TrackingModel>("trackings").find(id);
     });
   } catch (error) {
     throw new Error(

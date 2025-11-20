@@ -5,8 +5,6 @@ import { colors } from "@/styles";
 export const HomeStyles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: colors.secondary,
   },
 });

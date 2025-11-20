@@ -12,24 +12,26 @@ export function Tracking() {
 
   const trackingDistance = null;
 
+  if (!locationTracking.trackingState) {
+    return (
+      <View style={TrackingStyles.container}>
+        <ActivityIndicator color={colors.primary} size="large" />
+      </View>
+    );
+  }
+
   return (
     <View style={TrackingStyles.container}>
-      {locationTracking.trackingState ? (
-        <>
-          {trackingDistance && (
-            <TrackingDistance style={TrackingStyles.trackingDistance}>
-              {trackingDistance}
-            </TrackingDistance>
-          )}
-          <TrackingButton
-            state={locationTracking.trackingState}
-            onPress={locationTracking.updateTrackingState}
-            style={TrackingStyles.trackingButton}
-          />
-        </>
-      ) : (
-        <ActivityIndicator color={colors.primary} size="large" />
+      {trackingDistance && (
+        <TrackingDistance style={TrackingStyles.trackingDistance}>
+          {trackingDistance}
+        </TrackingDistance>
       )}
+      <TrackingButton
+        state={locationTracking.trackingState}
+        onPress={locationTracking.updateTrackingState}
+        style={TrackingStyles.trackingButton}
+      />
     </View>
   );
 }

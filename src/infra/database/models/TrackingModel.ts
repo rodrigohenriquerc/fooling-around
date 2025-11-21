@@ -1,5 +1,12 @@
-import { Model } from "@nozbe/watermelondb";
-import { date, field, readonly } from "@nozbe/watermelondb/decorators";
+import { Model, Query } from "@nozbe/watermelondb";
+import {
+  children,
+  date,
+  field,
+  readonly,
+} from "@nozbe/watermelondb/decorators";
+
+import { LocationEventModel } from "./LocationEventModel";
 
 export class TrackingModel extends Model {
   static table = "trackings";
@@ -13,4 +20,7 @@ export class TrackingModel extends Model {
 
   @field("finished_at")
   finishedAt!: string;
+
+  @children("location_events")
+  location_events!: Query<LocationEventModel>;
 }

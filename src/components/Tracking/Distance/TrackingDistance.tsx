@@ -1,12 +1,14 @@
+import { withObservables } from "@nozbe/watermelondb/react";
 import { Text, View } from "react-native";
 
-import { TrackingDistanceStyles } from "./TrackingDistance.styles";
-import { TrackingDistanceProps } from "./TrackingDistance.types";
+import { TrackingModel } from "@/infra/database/models";
+import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
 
-export function TrackingDistance({
-  children: distance,
-  style,
-}: TrackingDistanceProps) {
+import { TrackingDistanceStyles } from "./TrackingDistance.styles";
+import { EnhancedProps } from "./TrackingDistance.types";
+
+function TrackingDistanceComponent({ style, locations }: EnhancedProps) {
+  const distance = calculateCoordinatesPathLength(locations);
   const { value, measure } = formatDistance(distance);
 
   return (
@@ -24,3 +26,12 @@ const formatDistance = (distance: number) => {
 
   return { value: `${(distance / 1000).toFixed(2)}`, measure: "km" };
 };
+
+const enhance = withObservables(
+  ["tracking"],
+  ({ tracking }: { tracking: TrackingModel }) => ({
+    locations: tracking.location_events.observe(),
+  }),
+);
+
+export const TrackingDistance = enhance(TrackingDistanceComponent);

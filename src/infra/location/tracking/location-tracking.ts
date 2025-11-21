@@ -1,9 +1,11 @@
-import * as Expo from "expo";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 
+import {
+  LocationEventsRepository,
+  TrackingsRepository,
+} from "@/infra/database/repositories";
 import { Logger } from "@/infra/logs/logger";
-import { LocationEvent } from "@/types/location.types";
 
 const LOCATION_TRACKING_TASK_NAME = "LOCATION_TRACKING_TASK";
 const LOCATION_TRACKING_TASK_OPTIONS: Location.LocationTaskOptions = {
@@ -58,18 +60,24 @@ TaskManager.defineTask<{
     return console.warn(`${LOCATION_TRACKING_TASK_NAME} data: ${data}.`);
   }
 
-  const locationEvents = data.locations.map(
-    ({ coords: { accuracy, latitude, longitude }, timestamp }) => ({
-      accuracy,
-      latitude,
-      longitude,
-      timestamp,
-    }),
-  );
+  try {
+    const tracking = await TrackingsRepository.getCurrentTracking();
+    if (!tracking) return;
 
-  LocationTrackingEventEmitter.emit("location_update", locationEvents);
+    const locationEvents = data.locations.map(
+      ({ coords: { accuracy, latitude, longitude }, timestamp }) => ({
+        accuracy,
+        latitude,
+        longitude,
+        timestamp,
+      }),
+    );
+
+    await LocationEventsRepository.createLocationLogs(
+      tracking.id,
+      locationEvents,
+    );
+  } catch (error) {
+    Logger.error(`${LOCATION_TRACKING_TASK_NAME} execution error: ${error}`);
+  }
 });
-
-export const LocationTrackingEventEmitter = new Expo.EventEmitter<{
-  location_update: (events: LocationEvent[]) => void;
-}>();

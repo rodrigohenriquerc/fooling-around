@@ -2,15 +2,15 @@ import { ActivityIndicator, View } from "react-native";
 
 import { TrackingButton } from "@/components/Tracking/Button/TrackingButton";
 import { TrackingDistance } from "@/components/Tracking/Distance/TrackingDistance";
-import { useLocationTracking } from "@/hooks/useLocationTracking";
+import { useTracking } from "@/hooks/useTracking";
 import { colors } from "@/styles";
 
 import { TrackingStyles } from "./Tracking.styles";
 
 export function Tracking() {
-  const locationTracking = useLocationTracking();
+  const tracking = useTracking();
 
-  if (!locationTracking.trackingState) {
+  if (!tracking.state) {
     return (
       <View style={TrackingStyles.container}>
         <ActivityIndicator color={colors.primary} size="large" />
@@ -20,14 +20,15 @@ export function Tracking() {
 
   return (
     <View style={TrackingStyles.container}>
-      {locationTracking.trackingState === "on" && (
-        <TrackingDistance style={TrackingStyles.trackingDistance}>
-          {locationTracking.trackingDistance}
-        </TrackingDistance>
+      {tracking.state === "on" && tracking.tracking && (
+        <TrackingDistance
+          tracking={tracking.tracking}
+          style={TrackingStyles.trackingDistance}
+        />
       )}
       <TrackingButton
-        state={locationTracking.trackingState}
-        onPress={locationTracking.updateTrackingState}
+        state={tracking.state}
+        onPress={tracking.updateState}
         style={TrackingStyles.trackingButton}
       />
     </View>

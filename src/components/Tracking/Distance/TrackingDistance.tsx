@@ -1,5 +1,7 @@
+import { Q } from "@nozbe/watermelondb";
 import { withObservables } from "@nozbe/watermelondb/react";
 import { Text, View } from "react-native";
+import { map, scan } from "rxjs/operators";
 
 import { TrackingModel } from "@/infra/database/models";
 import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
@@ -7,8 +9,7 @@ import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
 import { TrackingDistanceStyles } from "./TrackingDistance.styles";
 import { EnhancedProps } from "./TrackingDistance.types";
 
-function TrackingDistanceComponent({ style, locations }: EnhancedProps) {
-  const distance = calculateCoordinatesPathLength(locations);
+function TrackingDistanceComponent({ style, distance }: EnhancedProps) {
   const { value, measure } = formatDistance(distance);
 
   return (
@@ -30,7 +31,41 @@ const formatDistance = (distance: number) => {
 const enhance = withObservables(
   ["tracking"],
   ({ tracking }: { tracking: TrackingModel }) => ({
-    locations: tracking.location_events.observe(),
+    distance: tracking.location_events
+      .extend(Q.sortBy("datetime", "asc"))
+      .observe()
+      .pipe(
+        scan(
+          (acc, locations) => {
+            if (locations.length < acc.count) {
+              return {
+                distance: calculateCoordinatesPathLength(locations),
+                count: locations.length,
+              };
+            }
+
+            const newLocations = locations.slice(acc.count);
+
+            if (newLocations.length === 0) {
+              return acc;
+            }
+
+            const previousLastLocation = locations[acc.count - 1];
+            const segment = previousLastLocation
+              ? [previousLastLocation, ...newLocations]
+              : newLocations;
+
+            const addedDistance = calculateCoordinatesPathLength(segment);
+
+            return {
+              distance: acc.distance + addedDistance,
+              count: locations.length,
+            };
+          },
+          { distance: 0, count: 0 },
+        ),
+        map((acc) => acc.distance),
+      ),
   }),
 );
 

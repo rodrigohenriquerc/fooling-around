@@ -8,19 +8,21 @@ export const TrackingService = (() => {
 
   async function start() {
     try {
-      const currentTracking = await TrackingsRepository.getCurrentTracking();
-
-      if (currentTracking) {
-        tracking = currentTracking;
-      } else {
-        tracking = await TrackingsRepository.createTracking();
-      }
+      tracking =
+        (await TrackingsRepository.getCurrentTracking()) ??
+        (await TrackingsRepository.createTracking());
 
       await LocationTracking.startTracking();
 
       return tracking;
     } catch (error) {
       Logger.error("[TrackingService] 'start' failed:", error);
+
+      if (tracking) {
+        await rollback(tracking);
+        tracking = null;
+      }
+
       throw error;
     }
   }
@@ -33,6 +35,14 @@ export const TrackingService = (() => {
     } catch (error) {
       Logger.error("[TrackingService] 'finish' failed:", error);
       throw error;
+    }
+  }
+
+  async function rollback(model: TrackingModel) {
+    try {
+      await TrackingsRepository.deleteTracking(model);
+    } catch (error) {
+      Logger.error("[TrackingService] Failed to rollback tracking:", error);
     }
   }
 

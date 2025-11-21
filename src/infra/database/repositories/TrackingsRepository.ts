@@ -48,4 +48,16 @@ export const TrackingsRepository = {
       );
     }
   },
+  async deleteTracking(tracking: TrackingModel) {
+    try {
+      await database.write(async () => {
+        await tracking.markAsDeleted();
+        await tracking.destroyPermanently();
+      });
+    } catch (error) {
+      throw new Error(
+        `[TrackingsRepository] 'deleteTracking' failed: ${error}`,
+      );
+    }
+  },
 };

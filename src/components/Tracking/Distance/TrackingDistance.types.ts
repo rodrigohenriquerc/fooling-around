@@ -1,6 +1,6 @@
 import { StyleProp, ViewStyle } from "react-native";
 
-import { LocationEventModel, TrackingModel } from "@/infra/database/models";
+import { TrackingModel } from "@/infra/database/models";
 
 export interface TrackingDistanceProps {
   style?: StyleProp<ViewStyle>;
@@ -8,5 +8,5 @@ export interface TrackingDistanceProps {
 }
 
 export interface EnhancedProps extends TrackingDistanceProps {
-  locations: LocationEventModel[];
+  distance: number;
 }

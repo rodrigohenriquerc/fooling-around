@@ -10,6 +10,7 @@ import { Logger } from "@/infra/logs/logger";
 const LOCATION_TRACKING_TASK_NAME = "LOCATION_TRACKING_TASK";
 const LOCATION_TRACKING_TASK_OPTIONS: Location.LocationTaskOptions = {
   accuracy: Location.Accuracy.BestForNavigation,
+  distanceInterval: 5,
   foregroundService: {
     notificationTitle: "The foolness started!",
     notificationBody: "Fooling around is doing what it does best!",

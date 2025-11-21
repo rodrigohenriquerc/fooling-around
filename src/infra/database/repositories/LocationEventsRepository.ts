@@ -5,11 +5,11 @@ import database from "@/infra/database";
 import { LocationEventModel } from "@/infra/database/models";
 
 export const LocationEventsRepository = {
-  createLocationLog,
+  createLocationLogs,
   getEventsByTrackingId,
 };
 
-async function createLocationLog(
+async function createLocationLogs(
   trackingId: string,
   locations: LocationObject[],
 ) {

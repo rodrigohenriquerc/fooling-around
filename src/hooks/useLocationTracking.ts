@@ -51,10 +51,9 @@ export const useLocationTracking = () => {
         throw new Error("The listener was called, but no tracking is on.");
       }
 
-      await LocationEventsRepository.createLocationLog(
+      await LocationEventsRepository.createLocationLogs(
         tracking.id,
         event.data,
-        event.executionInfo,
       );
 
       await updateDistance();

@@ -4,56 +4,48 @@ import database from "@/infra/database";
 import { TrackingModel } from "@/infra/database/models";
 
 export const TrackingsRepository = {
-  createTracking,
-  finishTracking,
-  getCurrentTracking,
-};
-
-async function createTracking() {
-  try {
-    return await database.write(async (writer) => {
-      const currentTracking = await writer.callReader(getCurrentTracking);
-
-      if (currentTracking) {
-        return currentTracking;
-      }
-
-      return await database.get<TrackingModel>("trackings").create(() => {});
-    });
-  } catch (error) {
-    throw new Error(`[TrackingsRepository] 'createTracking' failed: ${error}`);
-  }
-}
-
-async function finishTracking() {
-  try {
-    return await database.write(async (writer) => {
-      const currentTracking = await writer.callReader(getCurrentTracking);
-
-      if (!currentTracking) return;
-
-      await currentTracking.update((tracking) => {
-        tracking.finishedAt = new Date().toISOString();
+  async createTracking() {
+    try {
+      return await database.write(async () => {
+        return await database.get<TrackingModel>("trackings").create(() => {});
       });
-    });
-  } catch (error) {
-    throw new Error(`[TrackingsRepository] 'finishTracking' failed: ${error}`);
-  }
-}
+    } catch (error) {
+      throw new Error(
+        `[TrackingsRepository] 'createTracking' failed: ${error}`,
+      );
+    }
+  },
+  async finishTracking() {
+    try {
+      return await database.write(async (writer) => {
+        const currentTracking = await writer.callReader(
+          this.getCurrentTracking,
+        );
 
-async function getCurrentTracking() {
-  try {
-    return await database.read(async () => {
-      const selected = await database
-        .get<TrackingModel>("trackings")
-        .query(Q.where("finished_at", Q.eq(null)))
-        .fetch();
+        await currentTracking.update((tracking) => {
+          tracking.finishedAt = new Date().toISOString();
+        });
+      });
+    } catch (error) {
+      throw new Error(
+        `[TrackingsRepository] 'finishTracking' failed: ${error}`,
+      );
+    }
+  },
+  async getCurrentTracking() {
+    try {
+      return await database.read(async () => {
+        const selected = await database
+          .get<TrackingModel>("trackings")
+          .query(Q.where("finished_at", Q.eq(null)))
+          .fetch();
 
-      return selected[0];
-    });
-  } catch (error) {
-    throw new Error(
-      `[TrackingsRepository] 'getCurrentTracking' failed: ${error}`,
-    );
-  }
-}
+        return selected[0];
+      });
+    } catch (error) {
+      throw new Error(
+        `[TrackingsRepository] 'getCurrentTracking' failed: ${error}`,
+      );
+    }
+  },
+};

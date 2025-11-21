@@ -26,7 +26,8 @@ export const LocationEventsRepository = {
       });
     } catch (error) {
       throw new Error(
-        `[LocationEventsRepository] 'createLocationLog' failed: ${error}`,
+        "[LocationEventsRepository] 'createLocationLog' failed.",
+        { cause: error },
       );
     }
   },
@@ -40,7 +41,8 @@ export const LocationEventsRepository = {
       });
     } catch (error) {
       throw new Error(
-        `[LocationEventsRepository] 'getEventsByTrackingId' failed: ${error}`,
+        "[LocationEventsRepository] 'getEventsByTrackingId' failed.",
+        { cause: error },
       );
     }
   },

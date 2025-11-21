@@ -10,9 +10,9 @@ export const TrackingsRepository = {
         return await database.get<TrackingModel>("trackings").create(() => {});
       });
     } catch (error) {
-      throw new Error(
-        `[TrackingsRepository] 'createTracking' failed: ${error}`,
-      );
+      throw new Error("[TrackingsRepository] 'createTracking' failed.", {
+        cause: error,
+      });
     }
   },
   async finishTracking() {
@@ -32,9 +32,9 @@ export const TrackingsRepository = {
         }
       });
     } catch (error) {
-      throw new Error(
-        `[TrackingsRepository] 'finishTracking' failed: ${error}`,
-      );
+      throw new Error("[TrackingsRepository] 'finishTracking' failed.", {
+        cause: error,
+      });
     }
   },
   async getCurrentTracking() {
@@ -48,9 +48,9 @@ export const TrackingsRepository = {
         return selected[0];
       });
     } catch (error) {
-      throw new Error(
-        `[TrackingsRepository] 'getCurrentTracking' failed: ${error}`,
-      );
+      throw new Error("[TrackingsRepository] 'getCurrentTracking' failed.", {
+        cause: error,
+      });
     }
   },
   async deleteTracking(tracking: TrackingModel) {
@@ -60,9 +60,9 @@ export const TrackingsRepository = {
         await tracking.destroyPermanently();
       });
     } catch (error) {
-      throw new Error(
-        `[TrackingsRepository] 'deleteTracking' failed: ${error}`,
-      );
+      throw new Error("[TrackingsRepository] 'deleteTracking' failed.", {
+        cause: error,
+      });
     }
   },
 };

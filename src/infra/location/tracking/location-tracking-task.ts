@@ -8,7 +8,7 @@ import { LocationTrackingEventEmitter } from "./location-tracking-event-emitter"
 export const LocationTrackingTask = (() => {
   const TASK_NAME = "LOCATION_TRACKING_TASK";
   const TASK_OPTIONS: Location.LocationTaskOptions = {
-    accuracy: Location.Accuracy.Highest,
+    accuracy: Location.Accuracy.BestForNavigation,
     foregroundService: {
       notificationTitle: "The foolness started!",
       notificationBody: "Fooling around is doing what it does best!",

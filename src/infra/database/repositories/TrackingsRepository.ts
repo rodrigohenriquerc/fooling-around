@@ -37,7 +37,7 @@ export const TrackingsRepository = {
       return await database.read(async () => {
         const selected = await database
           .get<TrackingModel>("trackings")
-          .query(Q.where("finished_at", Q.eq(null)))
+          .query(Q.where("finished_at", Q.eq(null)), Q.take(1))
           .fetch();
 
         return selected[0];

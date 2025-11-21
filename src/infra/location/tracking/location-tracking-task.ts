@@ -17,7 +17,7 @@ export const LocationTrackingTask = (() => {
 
   TaskManager.defineTask<{
     locations: Location.LocationObject[];
-  }>(TASK_NAME, async ({ data, error, executionInfo }) => {
+  }>(TASK_NAME, async ({ data, error }) => {
     if (error) {
       return Logger.error(`${TASK_NAME} error: ${error}.`);
     }

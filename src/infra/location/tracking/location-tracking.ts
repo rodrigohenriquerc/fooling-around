@@ -20,7 +20,9 @@ const LOCATION_TRACKING_TASK_OPTIONS: Location.LocationTaskOptions = {
 export const LocationTracking = (() => {
   async function startTracking() {
     try {
-      if (await isLocationTracking()) return;
+      if (await isLocationTracking()) {
+        await stopTracking();
+      }
 
       await Location.startLocationUpdatesAsync(
         LOCATION_TRACKING_TASK_NAME,

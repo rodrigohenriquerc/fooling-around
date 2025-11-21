@@ -26,10 +26,16 @@ export const LocationTrackingTask = (() => {
       return console.warn(`${TASK_NAME} data: ${data}.`);
     }
 
-    LocationTrackingEventEmitter.emit("location_update", {
-      data: data.locations,
-      executionInfo,
-    });
+    const locationEvents = data.locations.map(
+      ({ coords: { accuracy, latitude, longitude }, timestamp }) => ({
+        accuracy,
+        latitude,
+        longitude,
+        timestamp,
+      }),
+    );
+
+    LocationTrackingEventEmitter.emit("location_update", locationEvents);
   });
 
   return { Name: TASK_NAME, Options: TASK_OPTIONS };

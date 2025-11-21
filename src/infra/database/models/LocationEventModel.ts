@@ -13,10 +13,6 @@ export class LocationEventModel extends Model {
   } as const;
 
   @nochange
-  @field("tracking_id")
-  trackingId!: string;
-
-  @nochange
   @field("latitude")
   latitude!: number;
 
@@ -25,28 +21,16 @@ export class LocationEventModel extends Model {
   longitude!: number;
 
   @nochange
-  @field("timestamp")
-  timestamp!: number;
+  @field("datetime")
+  datetime!: string;
 
   @nochange
   @field("accuracy")
   accuracy!: number | null;
 
   @nochange
-  @field("speed")
-  speed!: number | null;
-
-  @nochange
-  @field("heading")
-  heading!: number | null;
-
-  @nochange
-  @field("altitude")
-  altitude!: number | null;
-
-  @nochange
-  @field("altitude_accuracy")
-  altitudeAccuracy!: number | null;
+  @field("tracking_id")
+  trackingId!: string;
 
   @readonly
   @date("created_at")

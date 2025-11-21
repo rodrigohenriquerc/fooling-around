@@ -1,8 +1,8 @@
 import { Q } from "@nozbe/watermelondb";
-import { LocationObject } from "expo-location";
 
 import database from "@/infra/database";
 import { LocationEventModel } from "@/infra/database/models";
+import { LocationEvent } from "@/types/location.types";
 
 export const LocationEventsRepository = {
   createLocationLogs,
@@ -11,25 +11,23 @@ export const LocationEventsRepository = {
 
 async function createLocationLogs(
   trackingId: string,
-  locations: LocationObject[],
+  locations: LocationEvent[],
 ) {
   try {
     await database.write(async () => {
-      const newLogs = locations.map((location) => {
-        return database
-          .get<LocationEventModel>("location_events")
-          .prepareCreate((log) => {
-            log.trackingId = trackingId;
-            log.latitude = location.coords.latitude;
-            log.longitude = location.coords.longitude;
-            log.timestamp = location.timestamp;
-            log.accuracy = location.coords.accuracy;
-            log.speed = location.coords.speed;
-            log.heading = location.coords.heading;
-            log.altitude = location.coords.altitude;
-            log.altitudeAccuracy = location.coords.altitudeAccuracy;
-          });
-      });
+      const newLogs = locations.map(
+        ({ latitude, longitude, accuracy, timestamp }) => {
+          return database
+            .get<LocationEventModel>("location_events")
+            .prepareCreate((log) => {
+              log.latitude = latitude;
+              log.longitude = longitude;
+              log.datetime = new Date(timestamp).toISOString();
+              log.accuracy = accuracy;
+              log.trackingId = trackingId;
+            });
+        },
+      );
 
       await database.batch(...newLogs);
     });

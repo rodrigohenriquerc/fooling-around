@@ -7,10 +7,10 @@ import {
 } from "@/infra/database/repositories";
 import {
   LocationTracking,
-  LocationTrackingEvent,
   LocationTrackingEventEmitter,
 } from "@/infra/location/tracking";
 import { Logger } from "@/infra/logs/logger";
+import { LocationEvent } from "@/types/location.types";
 import { TrackingState } from "@/types/tracking.types";
 import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
 
@@ -29,21 +29,17 @@ export const useLocationTracking = () => {
     try {
       const events =
         await LocationEventsRepository.getEventsByTrackingId(trackingId);
-      const sortedEvents = events.sort((a, b) => a.timestamp - b.timestamp);
 
-      const coordinates = sortedEvents.map((event) => ({
-        latitude: event.latitude,
-        longitude: event.longitude,
-      }));
-
-      const totalDistance = calculateCoordinatesPathLength(coordinates);
+      const totalDistance = calculateCoordinatesPathLength(events);
       setTrackingDistance(totalDistance);
     } catch (error) {
       Logger.error("Failed to calculate distance:", error);
     }
   };
 
-  async function locationTrackingEventListener(event: LocationTrackingEvent) {
+  async function locationTrackingEventListener(
+    locationEvents: LocationEvent[],
+  ) {
     try {
       const tracking = await TrackingsRepository.getCurrentTracking();
 
@@ -53,7 +49,7 @@ export const useLocationTracking = () => {
 
       await LocationEventsRepository.createLocationLogs(
         tracking.id,
-        event.data,
+        locationEvents,
       );
 
       await updateDistance();

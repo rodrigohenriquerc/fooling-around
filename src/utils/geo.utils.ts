@@ -1,9 +1,8 @@
 import * as Turf from "@turf/turf";
-import { LocationObjectCoords } from "expo-location";
 
-export const calculateCoordinatesPathLength = (
-  path: Pick<LocationObjectCoords, "latitude" | "longitude">[],
-) => {
+import { Location } from "@/types/location.types";
+
+export const calculateCoordinatesPathLength = (path: Location[]) => {
   if (path.length < 2) return 0;
 
   const lineString = Turf.lineString(

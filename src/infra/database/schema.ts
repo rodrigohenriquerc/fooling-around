@@ -13,15 +13,11 @@ export default appSchema({
     tableSchema({
       name: "location_events",
       columns: [
-        { name: "tracking_id", type: "string", isIndexed: true },
         { name: "latitude", type: "number" },
         { name: "longitude", type: "number" },
-        { name: "timestamp", type: "number" },
+        { name: "datetime", type: "string" },
         { name: "accuracy", type: "number", isOptional: true },
-        { name: "speed", type: "number", isOptional: true },
-        { name: "heading", type: "number", isOptional: true },
-        { name: "altitude", type: "number", isOptional: true },
-        { name: "altitude_accuracy", type: "number", isOptional: true },
+        { name: "tracking_id", type: "string", isIndexed: true },
         { name: "created_at", type: "number" },
       ],
     }),

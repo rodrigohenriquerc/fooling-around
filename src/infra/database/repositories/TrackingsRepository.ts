@@ -17,14 +17,19 @@ export const TrackingsRepository = {
   },
   async finishTracking() {
     try {
-      return await database.write(async (writer) => {
-        const currentTracking = await writer.callReader(
-          this.getCurrentTracking,
-        );
+      return await database.write(async () => {
+        const trackings = await database
+          .get<TrackingModel>("trackings")
+          .query(Q.where("finished_at", Q.eq(null)), Q.take(1))
+          .fetch();
 
-        await currentTracking.update((tracking) => {
-          tracking.finishedAt = new Date().toISOString();
-        });
+        const currentTracking = trackings[0];
+
+        if (currentTracking) {
+          await currentTracking.update((tracking) => {
+            tracking.finishedAt = new Date().toISOString();
+          });
+        }
       });
     } catch (error) {
       throw new Error(

@@ -71,5 +71,5 @@ TaskManager.defineTask<{
 });
 
 export const LocationTrackingEventEmitter = new Expo.EventEmitter<{
-  location_update: (location: LocationEvent[]) => void;
+  location_update: (events: LocationEvent[]) => void;
 }>();

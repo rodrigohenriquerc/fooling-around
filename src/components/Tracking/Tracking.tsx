@@ -1,10 +1,10 @@
 import { ActivityIndicator, View } from "react-native";
 
-import { TrackingButton } from "@/components/Tracking/Button/TrackingButton";
-import { TrackingDistance } from "@/components/Tracking/Distance/TrackingDistance";
 import { useTracking } from "@/hooks/useTracking";
 import { colors } from "@/styles";
 
+import { TrackingButton } from "./Button/TrackingButton";
+import { TrackingDistance } from "./Distance/TrackingDistance";
 import { TrackingStyles } from "./Tracking.styles";
 
 export function Tracking() {

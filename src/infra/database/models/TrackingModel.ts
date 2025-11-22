@@ -22,5 +22,5 @@ export class TrackingModel extends Model {
   finishedAt!: string;
 
   @children("location_events")
-  location_events!: Query<LocationEventModel>;
+  locationEvents!: Query<LocationEventModel>;
 }

@@ -31,7 +31,7 @@ const formatDistance = (distance: number) => {
 const enhance = withObservables(
   ["tracking"],
   ({ tracking }: { tracking: TrackingModel }) => ({
-    distance: tracking.location_events
+    distance: tracking.locationEvents
       .extend(Q.sortBy("datetime", "asc"))
       .observe()
       .pipe(

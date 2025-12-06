@@ -7,9 +7,9 @@ import {
 } from "@/presentation/components/Tracking";
 import { TrackingAction, TrackingState } from "@/types/tracking.types";
 
-import { HomeStyles } from "./Home.styles";
+import { HomeScreenStyles } from "./HomeScreen.styles";
 
-export default function Home() {
+export function HomeScreen() {
   const [trackingState, setTrackingState] = useState<TrackingState>("idle");
 
   const onPressTrackingControllerBtn = (action: TrackingAction) => {
@@ -31,15 +31,15 @@ export default function Home() {
   };
 
   return (
-    <View style={HomeStyles.container}>
+    <View style={HomeScreenStyles.container}>
       <TrackingDistance
         distance={1000000}
-        style={HomeStyles.trackingDistance}
+        style={HomeScreenStyles.trackingDistance}
       />
       <TrackingController
         state={trackingState}
         onPress={onPressTrackingControllerBtn}
-        style={HomeStyles.trackingButton}
+        style={HomeScreenStyles.trackingButton}
       />
     </View>
   );

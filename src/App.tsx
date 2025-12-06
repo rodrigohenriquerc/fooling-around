@@ -1,15 +1,13 @@
-import { DatabaseProvider } from "@nozbe/watermelondb/react";
-import { StatusBar } from "expo-status-bar";
-
-import Sentry from "./config/sentry";
-import database from "./infra/database";
-import Home from "./presentation/screens/Home";
+import { DatabaseProvider, UIProvider } from "./main/providers";
+import { Sentry } from "./main/tools";
+import { HomeScreen } from "./presentation/screens";
 
 function App() {
   return (
-    <DatabaseProvider database={database}>
-      <StatusBar style="auto" />
-      <Home />
+    <DatabaseProvider>
+      <UIProvider>
+        <HomeScreen />
+      </UIProvider>
     </DatabaseProvider>
   );
 }

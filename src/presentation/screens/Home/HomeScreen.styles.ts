@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 import { colors } from "@/presentation/styles/theme";
 
-export const HomeStyles = StyleSheet.create({
+export const HomeScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",

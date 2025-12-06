@@ -7,6 +7,27 @@ import { TrackingState } from "@/types/tracking.types";
 export class TrackingService {
   private _trackingModel: TrackingModel | null = null;
 
+  async init(): Promise<TrackingState> {
+    try {
+      const currentTracking = await TrackingsRepository.getCurrentTracking();
+
+      if (!currentTracking) {
+        this._trackingModel = null;
+        return "idle";
+      }
+
+      this._trackingModel = currentTracking;
+
+      if (await LocationTracking.isTracking()) return "ongoing";
+
+      return "paused";
+    } catch (error) {
+      throw new Error("TrackingService failed to load state", { cause: error });
+    } finally {
+      console.log("Current tracking model id:", this._trackingModel?.id);
+    }
+  }
+
   async start() {
     try {
       const currentTracking = await TrackingsRepository.getCurrentTracking();
@@ -46,28 +67,10 @@ export class TrackingService {
   async finish() {
     try {
       await this._trackingModel?.finish();
+      console.log("Finished tracking with id:", this._trackingModel?.id);
       this._trackingModel = null;
     } catch (error) {
       throw new Error("TrackingService failed to finish", { cause: error });
-    }
-  }
-
-  async getState(): Promise<TrackingState> {
-    try {
-      const currentTracking = await TrackingsRepository.getCurrentTracking();
-
-      if (!currentTracking) {
-        this._trackingModel = null;
-        return "idle";
-      }
-
-      if (await LocationTracking.isTracking()) {
-        return "ongoing";
-      }
-
-      return "paused";
-    } catch (error) {
-      throw new Error("TrackingService failed to load state", { cause: error });
     }
   }
 

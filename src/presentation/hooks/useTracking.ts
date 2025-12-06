@@ -47,8 +47,12 @@ export const useTracking = () => {
 
   useEffect(() => {
     const init = async () => {
-      const initialState = await trackingService.getState();
-      setTrackingState(initialState);
+      try {
+        const initialState = await trackingService.init();
+        setTrackingState(initialState);
+      } catch (error) {
+        Logger.logError("Failed to initialize tracking", error);
+      }
     };
 
     init();

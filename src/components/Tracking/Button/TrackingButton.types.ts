@@ -1,9 +1,9 @@
-import { StyleProp, ViewStyle } from "react-native";
-
-import { TrackingState } from "@/types/tracking.types";
+import { GestureResponderEvent, StyleProp, ViewStyle } from "react-native";
 
 export interface TrackingButtonProps {
-  state: TrackingState;
-  onPress: (state: TrackingState) => void;
+  icon: "play" | "pause" | "stop";
+  variant: "primary" | "secondary";
+  onPress: (event: GestureResponderEvent) => void;
+  label?: string;
   style?: StyleProp<ViewStyle>;
 }

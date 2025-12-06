@@ -1,51 +1,54 @@
 import { IconProps } from "@expo/vector-icons/build/createIconSet";
 import Entypo from "@expo/vector-icons/Entypo";
-import { TouchableOpacity } from "react-native";
-
-import { colors } from "@/styles/theme";
-import { TrackingState } from "@/types/tracking.types";
+import { Text, TouchableOpacity } from "react-native";
 
 import { TrackingButtonStyles } from "./TrackingButton.styles";
 import { TrackingButtonProps } from "./TrackingButton.types";
 
-export function TrackingButton({ state, onPress, style }: TrackingButtonProps) {
-  const onPressHandler = () => {
-    onPress(state === "off" ? "on" : "off");
-  };
-
-  const icon = defineIconByState(state);
+export function TrackingButton({
+  icon,
+  variant,
+  label,
+  onPress,
+  style,
+}: TrackingButtonProps) {
+  const iconProps: Pick<
+    IconProps<"controller-play" | "controller-stop" | "controller-paus">,
+    "name" | "style"
+  > = (() =>
+    (
+      ({
+        play: {
+          name: "controller-play",
+          style: { left: 3 },
+        },
+        stop: {
+          name: "controller-stop",
+        },
+        pause: {
+          name: "controller-paus",
+        },
+      }) as const
+    )[icon])();
 
   return (
     <TouchableOpacity
-      onPress={onPressHandler}
-      style={[TrackingButtonStyles.btn, style]}
+      onPress={onPress}
+      style={[
+        TrackingButtonStyles.btn,
+        TrackingButtonStyles[`btn_${variant}`],
+        label && TrackingButtonStyles.btnWithLabel,
+        style,
+      ]}
     >
       <Entypo
-        size={48}
-        name={icon.name}
-        style={icon.style}
-        color={colors.white}
+        size={label ? 40 : 48}
+        color={TrackingButtonStyles[`btn_${variant}_icon`].color}
+        {...iconProps}
+        style={iconProps.style}
       />
+
+      {!!label && <Text style={TrackingButtonStyles.label}>{label}</Text>}
     </TouchableOpacity>
   );
 }
-
-const defineIconByState = (
-  state: TrackingState,
-): Pick<IconProps<"controller-stop" | "controller-play">, "name" | "style"> =>
-  (
-    ({
-      on: {
-        name: "controller-stop",
-        style: {
-          left: 0,
-        },
-      },
-      off: {
-        name: "controller-play",
-        style: {
-          left: 3,
-        },
-      },
-    }) as const
-  )[state];

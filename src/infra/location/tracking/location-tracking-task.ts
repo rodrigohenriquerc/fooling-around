@@ -5,7 +5,7 @@ import {
   LocationEventsRepository,
   TrackingsRepository,
 } from "@/infra/database/repositories";
-import { Logger } from "@/infra/logs/logger";
+import { Logger } from "@/tools/monitoring";
 
 export const LOCATION_TRACKING_TASK_NAME = "LOCATION_TRACKING_TASK";
 
@@ -13,7 +13,7 @@ TaskManager.defineTask<{
   locations: Location.LocationObject[];
 }>(LOCATION_TRACKING_TASK_NAME, async ({ data, error }) => {
   if (error) {
-    return Logger.error(`${LOCATION_TRACKING_TASK_NAME} error: ${error}.`);
+    return Logger.logError(`${LOCATION_TRACKING_TASK_NAME} error: ${error}.`);
   }
 
   if (!data?.locations?.length) {
@@ -38,6 +38,6 @@ TaskManager.defineTask<{
       locationEvents,
     );
   } catch (error) {
-    Logger.error(`${LOCATION_TRACKING_TASK_NAME} execution error: ${error}`);
+    Logger.logError(`${LOCATION_TRACKING_TASK_NAME} execution error: ${error}`);
   }
 });

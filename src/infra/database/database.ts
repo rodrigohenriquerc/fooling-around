@@ -1,7 +1,7 @@
 import { Database } from "@nozbe/watermelondb";
 import SQLiteAdapter from "@nozbe/watermelondb/adapters/sqlite";
 
-import { Logger } from "@/infra/logs/logger";
+import { Logger } from "@/tools/monitoring";
 
 import migrations from "./migrations";
 import { LocationEventModel, TrackingModel } from "./models";
@@ -12,7 +12,7 @@ const adapter = new SQLiteAdapter({
   migrations,
   dbName: "fool-db",
   onSetUpError: (error) => {
-    Logger.error("Database setup failed:", error);
+    Logger.logError("Database setup failed:", error);
   },
 });
 

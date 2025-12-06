@@ -3,7 +3,7 @@ import * as Location from "expo-location";
 import { TrackingModel } from "@/infra/database/models";
 import { TrackingsRepository } from "@/infra/database/repositories";
 import { LocationTracking } from "@/infra/location/tracking";
-import { Logger } from "@/infra/logs/logger";
+import { Logger } from "@/tools/monitoring";
 
 export const TrackingService = (() => {
   const locationTracking = new LocationTracking({
@@ -41,7 +41,7 @@ export const TrackingService = (() => {
     try {
       await TrackingsRepository.deleteTracking(model);
     } catch (error) {
-      Logger.error("[TrackingService] Failed to rollback tracking:", error);
+      Logger.logError("[TrackingService] Failed to rollback tracking:", error);
     }
   }
 

@@ -7,7 +7,7 @@ export const TrackingDistanceStyles = StyleSheet.create({
     alignItems: "center",
   },
   value: {
-    fontSize: 140,
+    fontSize: 100,
     fontWeight: "bold",
     color: colors.white,
   },

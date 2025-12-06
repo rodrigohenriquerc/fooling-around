@@ -2,7 +2,6 @@ import { Model, Query } from "@nozbe/watermelondb";
 import {
   children,
   date,
-  field,
   readonly,
   writer,
 } from "@nozbe/watermelondb/decorators";
@@ -19,7 +18,7 @@ export class TrackingModel extends Model {
   @date("created_at")
   createdAt!: Date;
 
-  @field("finished_at")
+  @date("finished_at")
   finishedAt!: Date;
 
   @children("location_events")

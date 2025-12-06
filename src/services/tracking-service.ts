@@ -45,8 +45,6 @@ export class TrackingService {
 
   async finish() {
     try {
-      await LocationTracking.stop();
-
       await this._trackingModel?.finish();
       this._trackingModel = null;
     } catch (error) {

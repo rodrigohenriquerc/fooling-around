@@ -13,11 +13,11 @@ TaskManager.defineTask<{
   locations: Location.LocationObject[];
 }>(LOCATION_TRACKING_TASK_NAME, async ({ data, error }) => {
   if (error) {
-    return Logger.logError(`${LOCATION_TRACKING_TASK_NAME} error: ${error}.`);
+    return Logger.logError(`${LOCATION_TRACKING_TASK_NAME} failed`, error);
   }
 
   if (!data?.locations?.length) {
-    return console.warn(`${LOCATION_TRACKING_TASK_NAME} data: ${data}.`);
+    return Logger.logWarning(`${LOCATION_TRACKING_TASK_NAME} data: ${data}.`);
   }
 
   try {
@@ -33,11 +33,11 @@ TaskManager.defineTask<{
       }),
     );
 
-    await LocationEventsRepository.createLocationLogs(
+    await LocationEventsRepository.createLocationEvents(
       tracking.id,
       locationEvents,
     );
   } catch (error) {
-    Logger.logError(`${LOCATION_TRACKING_TASK_NAME} execution error: ${error}`);
+    Logger.logError(`${LOCATION_TRACKING_TASK_NAME} executor failed`, error);
   }
 });

@@ -3,47 +3,36 @@ import * as Location from "expo-location";
 import { TrackingModel } from "@/infra/database/models";
 import { TrackingsRepository } from "@/infra/database/repositories";
 import { LocationTracking } from "@/infra/location/tracking";
-import { Logger } from "@/tools/monitoring";
 
-export const TrackingService = (() => {
-  const locationTracking = new LocationTracking({
-    accuracy: Location.Accuracy.BestForNavigation,
-    distanceInterval: 5,
-    foregroundService: {
-      notificationTitle: "The foolness started!",
-      notificationBody: "Fooling around is doing what it does best!",
-    },
-  });
+export class TrackingService {
+  private _trackingModel: TrackingModel | null = null;
+  private _locationTracking: LocationTracking | null = null;
 
-  async function start() {
-    let tracking: TrackingModel | null = null;
-
+  async start() {
     try {
-      tracking = await TrackingsRepository.createTracking();
-      await locationTracking.start();
-      return tracking;
+      this._trackingModel = await TrackingsRepository.createTracking();
+      this._locationTracking = new LocationTracking({
+        accuracy: Location.Accuracy.BestForNavigation,
+        distanceInterval: 5,
+        foregroundService: {
+          notificationTitle: "The foolness started!",
+          notificationBody: "Fooling around is doing what it does best!",
+        },
+      });
+
+      await this._locationTracking.start();
     } catch (error) {
-      if (tracking) await rollback(tracking);
+      await this._trackingModel?.remove();
       throw new Error("TrackingService failed to start", { cause: error });
     }
   }
 
-  async function finish() {
+  async finish() {
     try {
-      await locationTracking.stop();
-      await TrackingsRepository.finishTracking();
+      await this._locationTracking?.stop();
+      await this._trackingModel?.finish();
     } catch (error) {
       throw new Error("TrackingService failed to finish", { cause: error });
     }
   }
-
-  async function rollback(model: TrackingModel) {
-    try {
-      await TrackingsRepository.deleteTracking(model);
-    } catch (error) {
-      Logger.logError("[TrackingService] Failed to rollback tracking:", error);
-    }
-  }
-
-  return { start, finish };
-})();
+}

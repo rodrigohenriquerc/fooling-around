@@ -1,5 +1,7 @@
 import * as Location from "expo-location";
 
+import { Logger } from "@/tools/monitoring";
+
 import { LOCATION_TRACKING_TASK_NAME } from "./location-tracking-task";
 
 export class LocationTracking {
@@ -7,7 +9,12 @@ export class LocationTracking {
 
   async start() {
     try {
-      if (await this._isTracking()) throw "Already started";
+      if (await this._isTracking()) {
+        Logger.logWarning(
+          "Tried to start LocationTracking but it was already started",
+        );
+        return;
+      }
 
       await Location.startLocationUpdatesAsync(
         LOCATION_TRACKING_TASK_NAME,
@@ -20,7 +27,12 @@ export class LocationTracking {
 
   async stop() {
     try {
-      if (!(await this._isTracking())) throw "Not running";
+      if (!(await this._isTracking())) {
+        Logger.logWarning(
+          "Tried to stop LocationTracking but it was not running",
+        );
+        return;
+      }
 
       await Location.stopLocationUpdatesAsync(LOCATION_TRACKING_TASK_NAME);
     } catch (error) {

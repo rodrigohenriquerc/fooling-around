@@ -2,14 +2,15 @@ import * as Location from "expo-location";
 
 import { Logger } from "@/tools/monitoring";
 
-import { LOCATION_TRACKING_TASK_NAME } from "./location-tracking-task";
+import {
+  LOCATION_TRACKING_TASK_NAME,
+  LOCATION_TRACKING_TASK_OPTIONS,
+} from "./location-tracking-task";
 
 export class LocationTracking {
-  constructor(private readonly config: Location.LocationTaskOptions) {}
-
-  async start() {
+  static async start() {
     try {
-      if (await this._isTracking()) {
+      if (await this.isTracking()) {
         Logger.logWarning(
           "Tried to start LocationTracking but it was already started",
         );
@@ -18,16 +19,16 @@ export class LocationTracking {
 
       await Location.startLocationUpdatesAsync(
         LOCATION_TRACKING_TASK_NAME,
-        this.config,
+        LOCATION_TRACKING_TASK_OPTIONS,
       );
     } catch (error) {
       throw new Error("LocationTracking failed to start", { cause: error });
     }
   }
 
-  async stop() {
+  static async stop() {
     try {
-      if (!(await this._isTracking())) {
+      if (!(await this.isTracking())) {
         Logger.logWarning(
           "Tried to stop LocationTracking but it was not running",
         );
@@ -40,7 +41,7 @@ export class LocationTracking {
     }
   }
 
-  private async _isTracking() {
+  static async isTracking() {
     try {
       return await Location.hasStartedLocationUpdatesAsync(
         LOCATION_TRACKING_TASK_NAME,

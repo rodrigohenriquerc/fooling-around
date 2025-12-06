@@ -24,8 +24,8 @@ export class LocationEventModel extends Model {
   longitude!: number;
 
   @nochange
-  @field("datetime")
-  datetime!: string;
+  @field("emitted_at")
+  emittedAt!: Date;
 
   @nochange
   @field("accuracy")

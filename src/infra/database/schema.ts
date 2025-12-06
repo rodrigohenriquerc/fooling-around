@@ -6,19 +6,47 @@ export default appSchema({
     tableSchema({
       name: "trackings",
       columns: [
-        { name: "created_at", type: "number" },
-        { name: "finished_at", type: "string", isOptional: true },
+        {
+          name: "created_at",
+          type: "number",
+        },
+        {
+          name: "finished_at",
+          type: "number",
+          isOptional: true,
+          isIndexed: true,
+        },
       ],
     }),
     tableSchema({
       name: "location_events",
       columns: [
-        { name: "latitude", type: "number" },
-        { name: "longitude", type: "number" },
-        { name: "datetime", type: "string" },
-        { name: "accuracy", type: "number", isOptional: true },
-        { name: "tracking_id", type: "string", isIndexed: true },
-        { name: "created_at", type: "number" },
+        {
+          name: "latitude",
+          type: "number",
+        },
+        {
+          name: "longitude",
+          type: "number",
+        },
+        {
+          name: "emitted_at",
+          type: "number",
+        },
+        {
+          name: "accuracy",
+          type: "number",
+          isOptional: true,
+        },
+        {
+          name: "tracking_id",
+          type: "string",
+          isIndexed: true,
+        },
+        {
+          name: "created_at",
+          type: "number",
+        },
       ],
     }),
   ],

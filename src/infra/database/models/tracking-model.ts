@@ -20,7 +20,7 @@ export class TrackingModel extends Model {
   createdAt!: Date;
 
   @field("finished_at")
-  finishedAt!: string;
+  finishedAt!: Date;
 
   @children("location_events")
   locationEvents!: Query<LocationEventModel>;
@@ -28,7 +28,7 @@ export class TrackingModel extends Model {
   @writer async finish() {
     try {
       await this.update((tracking) => {
-        tracking.finishedAt = new Date().toISOString();
+        tracking.finishedAt = new Date();
       });
     } catch (error) {
       throw new Error("TrackingModel failed to finish the tracking", {

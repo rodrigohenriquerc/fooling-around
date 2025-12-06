@@ -5,4 +5,8 @@ export class Logger {
     console.error(message, error);
     Sentry.captureException(new Error(message, { cause: error }));
   }
+
+  static logWarning(message: string) {
+    console.warn(message);
+  }
 }

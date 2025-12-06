@@ -14,12 +14,12 @@ export class TrackingService {
       if (!currentTracking) {
         this._trackingModel = await TrackingsRepository.createTracking();
       } else {
+        this._trackingModel = currentTracking;
+
         Logger.logWarning(
           "Tried to create new tracking while another is unfinished",
         );
       }
-
-      this._trackingModel = await TrackingsRepository.createTracking();
       await LocationTracking.start();
     } catch (error) {
       await this._rollback();

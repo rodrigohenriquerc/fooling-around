@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { TrackingService } from "@/services/tracking-service";
 import { Logger } from "@/tools/monitoring";
@@ -44,6 +44,15 @@ export const useTracking = () => {
       Logger.logError("Failed to finish tracking", error);
     }
   };
+
+  useEffect(() => {
+    const init = async () => {
+      const initialState = await trackingService.getState();
+      setTrackingState(initialState);
+    };
+
+    init();
+  }, []);
 
   return { start, pause, resume, finish, state: trackingState };
 };

@@ -1,10 +1,13 @@
-import { Model } from "@nozbe/watermelondb";
+import { Model, Relation } from "@nozbe/watermelondb";
 import {
   date,
   field,
+  immutableRelation,
   nochange,
   readonly,
 } from "@nozbe/watermelondb/decorators";
+
+import type { TrackingModel } from "./TrackingModel";
 
 export class LocationEventModel extends Model {
   static table = "location_events";
@@ -35,4 +38,7 @@ export class LocationEventModel extends Model {
   @readonly
   @date("created_at")
   createdAt!: Date;
+
+  @immutableRelation("trackings", "tracking_id")
+  tracking!: Relation<TrackingModel>;
 }

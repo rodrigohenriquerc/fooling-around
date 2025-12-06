@@ -6,7 +6,7 @@ import {
   readonly,
 } from "@nozbe/watermelondb/decorators";
 
-import { LocationEventModel } from "./LocationEventModel";
+import type { LocationEventModel } from "./LocationEventModel";
 
 export class TrackingModel extends Model {
   static table = "trackings";

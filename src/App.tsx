@@ -1,6 +1,6 @@
 import { DatabaseProvider, UIProvider } from "./main/providers";
-import { Sentry } from "./main/tools";
 import { HomeScreen } from "./presentation/screens";
+import { Sentry } from "./tools";
 
 function App() {
   return (

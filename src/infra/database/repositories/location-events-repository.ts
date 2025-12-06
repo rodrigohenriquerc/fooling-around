@@ -20,7 +20,7 @@ export class LocationEventsRepository {
             return LocationEventsRepository._collection.prepareCreate((log) => {
               log.latitude = latitude;
               log.longitude = longitude;
-              log.emittedAt = new Date(timestamp);
+              log.timestamp = timestamp;
               log.accuracy = accuracy;
               log.trackingId = trackingId;
             });

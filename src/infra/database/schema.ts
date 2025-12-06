@@ -30,7 +30,7 @@ export default appSchema({
           type: "number",
         },
         {
-          name: "emitted_at",
+          name: "timestamp",
           type: "number",
         },
         {

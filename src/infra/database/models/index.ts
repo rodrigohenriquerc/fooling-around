@@ -1,2 +1,2 @@
-export * from "./LocationEventModel";
-export * from "./TrackingModel";
+export * from "./location-event-model";
+export * from "./tracking-model";

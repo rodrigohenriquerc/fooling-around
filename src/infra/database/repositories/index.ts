@@ -1,2 +1,2 @@
-export * from "./LocationEventsRepository";
-export * from "./TrackingsRepository";
+export * from "./location-events-repository";
+export * from "./trackings-repository";

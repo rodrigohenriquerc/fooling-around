@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import { TrackingButton } from "@/components/Tracking/Button/TrackingButton";
+import { TrackingButton } from "@/presentation/components/Tracking";
 
 import { TrackingControllerStyles } from "./TrackingController.styles";
 import { TrackingControllerProps } from "./TrackingController.types";

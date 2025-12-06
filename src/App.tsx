@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 
 import Sentry from "./config/sentry";
 import database from "./infra/database";
-import Home from "./screens/Home";
+import Home from "./presentation/screens/Home";
 
 function App() {
   return (

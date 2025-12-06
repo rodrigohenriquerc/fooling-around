@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { View } from "react-native";
 
-import { TrackingController } from "@/components/Tracking/Controller/TrackingController";
-import { TrackingDistance } from "@/components/Tracking/Distance/TrackingDistance";
+import {
+  TrackingController,
+  TrackingDistance,
+} from "@/presentation/components/Tracking";
 import { TrackingAction, TrackingState } from "@/types/tracking.types";
 
 import { HomeStyles } from "./Home.styles";

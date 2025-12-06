@@ -1,6 +1,7 @@
 import { TrackingModel } from "@/infra/database/models";
 import { TrackingsRepository } from "@/infra/database/repositories";
 import { LocationTracking } from "@/infra/location/tracking";
+import { Logger } from "@/tools/monitoring";
 import { TrackingState } from "@/types/tracking.types";
 
 export class TrackingService {
@@ -8,6 +9,16 @@ export class TrackingService {
 
   async start() {
     try {
+      const currentTracking = await TrackingsRepository.getCurrentTracking();
+
+      if (!currentTracking) {
+        this._trackingModel = await TrackingsRepository.createTracking();
+      } else {
+        Logger.logWarning(
+          "Tried to create new tracking while another is unfinished",
+        );
+      }
+
       this._trackingModel = await TrackingsRepository.createTracking();
       await LocationTracking.start();
     } catch (error) {

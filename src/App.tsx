@@ -1,3 +1,5 @@
+import "@/tasks";
+
 import { DatabaseProvider, UIProvider } from "./presentation/providers";
 import { HomeScreen } from "./presentation/screens";
 import { Sentry } from "./tools/monitoring";

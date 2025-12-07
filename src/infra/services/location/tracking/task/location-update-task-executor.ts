@@ -1,22 +1,29 @@
 import { LocationObject } from "expo-location";
 import { TaskManagerError } from "expo-task-manager";
 
-import { createLocationLogs } from "@/infra/database/tables/location-logs";
-import { selectCurrentSession } from "@/infra/database/tables/sessions";
+import {
+  createLocationLogs,
+  selectCurrentSession,
+} from "@/infra/database/repositories";
 import { Logger } from "@/tools/monitoring";
 
 import { LOCATION_UPDATE_TASK_NAME } from "./location-update-task-config";
 
 export async function locationUpdateTaskExecutor(update: LocationUpdate) {
+  console.log("locationUpdateTaskExecutor");
+
   if (update.error) throw update.error;
 
-  if (!update.data?.locations?.length) return;
+  if (!update.data?.locations?.length) {
+    Logger.logWarning("No data received");
+    return;
+  }
 
   try {
     const currentSession = await selectCurrentSession();
     if (!currentSession) return;
 
-    const locationEvents = update.data.locations.map(
+    const locationLogs = update.data.locations.map(
       ({ coords: { accuracy, latitude, longitude }, timestamp }) => ({
         accuracy,
         latitude,
@@ -25,7 +32,9 @@ export async function locationUpdateTaskExecutor(update: LocationUpdate) {
       }),
     );
 
-    await createLocationLogs(currentSession.id, locationEvents);
+    console.log("locationLogs:", locationLogs);
+
+    await createLocationLogs(currentSession.id, locationLogs);
   } catch (error) {
     Logger.logError(`${LOCATION_UPDATE_TASK_NAME} failed`, error);
   }

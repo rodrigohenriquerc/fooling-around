@@ -1,8 +1,8 @@
 import {
   createSession,
   selectCurrentSession,
-  SessionModel,
-} from "@/infra/database/tables/sessions";
+} from "@/infra/database/repositories";
+import { SessionModel } from "@/infra/database/tables/sessions";
 import {
   startTrackingLocation,
   stopTrackingLocation,

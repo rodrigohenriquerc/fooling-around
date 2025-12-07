@@ -2,44 +2,43 @@ import { View } from "react-native";
 
 import { SessionButton } from "@/presentation/components/Session/Button/SessionButton";
 
+import { useSession } from "../Session.context";
 import { SessionControllerStyles } from "./SessionController.styles";
 import { SessionControllerProps } from "./SessionController.types";
 
-export function SessionController({
-  state,
-  onPress,
-  style,
-}: SessionControllerProps) {
-  if (state === "idle") {
+export function SessionController({ style }: SessionControllerProps) {
+  const session = useSession();
+
+  if (session.state === "idle") {
     return (
       <SessionButton
         icon="play"
         variant="primary"
-        onPress={() => onPress("start")}
+        onPress={session.start}
         style={style}
       />
     );
   }
 
-  if (state === "ongoing") {
+  if (session.state === "ongoing") {
     return (
       <SessionButton
         icon="pause"
         variant="secondary"
-        onPress={() => onPress("pause")}
+        onPress={session.pause}
         style={style}
       />
     );
   }
 
-  if (state === "paused") {
+  if (session.state === "paused") {
     return (
       <View style={[SessionControllerStyles.row, style]}>
         <SessionButton
           icon="play"
           label="Resume"
           variant="secondary"
-          onPress={() => onPress("resume")}
+          onPress={session.resume}
           style={SessionControllerStyles.rowButton}
         />
 
@@ -47,7 +46,7 @@ export function SessionController({
           icon="stop"
           label="Finish"
           variant="secondary"
-          onPress={() => onPress("finish")}
+          onPress={session.finish}
           style={SessionControllerStyles.rowButton}
         />
       </View>

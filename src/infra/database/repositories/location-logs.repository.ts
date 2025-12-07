@@ -1,7 +1,6 @@
 import database from "@/infra/database";
+import { LocationLogModel } from "@/infra/database/tables/location-logs";
 import { LocationLog } from "@/types/location.types";
-
-import { LocationLogModel } from "./location-log.model";
 
 const LocationLogsCollection = database.get<LocationLogModel>("location_logs");
 

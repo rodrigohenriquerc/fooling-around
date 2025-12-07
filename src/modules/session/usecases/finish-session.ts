@@ -1,4 +1,4 @@
-import { selectCurrentSession } from "@/infra/database/tables/sessions";
+import { selectCurrentSession } from "@/infra/database/repositories";
 import { stopTrackingLocation } from "@/infra/services/location";
 
 export async function finishSession() {
@@ -11,7 +11,7 @@ export async function finishSession() {
       throw "There is no unfinished session";
     }
 
-    await currentSession.remove();
+    await currentSession.finish();
   } catch (error) {
     throw new Error("Failed to finish session", { cause: error });
   }

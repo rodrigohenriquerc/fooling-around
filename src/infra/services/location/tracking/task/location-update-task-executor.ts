@@ -12,10 +12,7 @@ import { LOCATION_UPDATE_TASK_NAME } from "./location-update-task-config";
 export async function locationUpdateTaskExecutor(update: LocationUpdate) {
   if (update.error) throw update.error;
 
-  if (!update.data?.locations?.length) {
-    Logger.logWarning("No data received");
-    return;
-  }
+  if (!update.data?.locations?.length) return;
 
   try {
     const currentSession = await selectCurrentSession();

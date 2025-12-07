@@ -6,7 +6,7 @@ import {
   writer,
 } from "@nozbe/watermelondb/decorators";
 
-import type { LocationLogModel } from "./location-log-model";
+import type { LocationLogModel } from "@/infra/database/tables/location-logs/location-log.model";
 
 export class SessionModel extends Model {
   static table = "sessions";

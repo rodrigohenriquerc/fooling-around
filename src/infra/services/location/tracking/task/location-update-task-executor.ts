@@ -1,10 +1,8 @@
 import { LocationObject } from "expo-location";
 import { TaskManagerError } from "expo-task-manager";
 
-import {
-  createLocationLogs,
-  selectCurrentSession,
-} from "@/infra/database/repositories";
+import { createLocationLogs } from "@/infra/database/tables/location-logs";
+import { selectCurrentSession } from "@/infra/database/tables/sessions";
 import { Logger } from "@/tools/monitoring";
 
 import { LOCATION_UPDATE_TASK_NAME } from "./location-update-task-config";

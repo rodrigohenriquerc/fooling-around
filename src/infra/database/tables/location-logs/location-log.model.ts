@@ -7,7 +7,7 @@ import {
   readonly,
 } from "@nozbe/watermelondb/decorators";
 
-import type { SessionModel } from "./session-model";
+import type { SessionModel } from "@/infra/database/tables/sessions/session.model";
 
 export class LocationLogModel extends Model {
   static table = "location_logs";

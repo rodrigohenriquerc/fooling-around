@@ -1,7 +1,8 @@
 import { Q } from "@nozbe/watermelondb";
 
 import database from "@/infra/database";
-import { SessionModel } from "@/infra/database/models";
+
+import { SessionModel } from "./session.model";
 
 const SessionsCollection = database.get<SessionModel>("sessions");
 

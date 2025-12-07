@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 import { useSession } from "@/presentation/components/Session/Session.context";
@@ -8,7 +9,14 @@ import { SessionDistanceProps } from "./SessionDistance.types";
 export function SessionDistance({ style }: SessionDistanceProps) {
   const session = useSession();
 
-  const { value, measure } = formatDistance(session.distance);
+  const [distance, setDistance] = useState(0);
+
+  const { value, measure } = formatDistance(distance);
+
+  useEffect(() => {
+    const subscription = session.distance?.subscribe(setDistance);
+    return () => subscription?.unsubscribe();
+  }, [session?.distance]);
 
   return (
     <View style={[SessionDistanceStyles.container, style]}>

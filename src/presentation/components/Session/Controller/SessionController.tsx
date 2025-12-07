@@ -1,8 +1,8 @@
 import { View } from "react-native";
 
 import { SessionButton } from "@/presentation/components/Session/Button/SessionButton";
+import { useSession } from "@/presentation/components/Session/Session.context";
 
-import { useSession } from "../Session.context";
 import { SessionControllerStyles } from "./SessionController.styles";
 import { SessionControllerProps } from "./SessionController.types";
 

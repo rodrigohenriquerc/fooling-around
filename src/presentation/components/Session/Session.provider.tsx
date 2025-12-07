@@ -17,8 +17,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [state, setState] = useState<SessionState>("idle");
   const [session, setSession] = useState<SessionModel | null>(null);
 
-  const [distance, setDistance] = useState(0);
-
   const start = async () => {
     try {
       const newSession = await startSession();
@@ -56,7 +54,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
       await finishSession();
       setState("idle");
       setSession(null);
-      setDistance(0);
     } catch (error) {
       Logger.logError("Session provider", error);
       throw error;
@@ -77,11 +74,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
     init();
   }, []);
 
-  useEffect(() => {
-    const sub = session?.distance.subscribe(setDistance);
-    return () => sub?.unsubscribe();
-  }, [session?.distance]);
-
   return (
     <SessionContext.Provider
       value={{
@@ -90,7 +82,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         pause,
         resume,
         finish,
-        distance,
+        distance: session?.distance,
       }}
     >
       {children}

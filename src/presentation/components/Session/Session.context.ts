@@ -1,3 +1,4 @@
+import { Observable } from "@nozbe/watermelondb/utils/rx";
 import { createContext, useContext } from "react";
 
 import { SessionModel } from "@/infra/database/tables/sessions";
@@ -21,5 +22,5 @@ interface Session {
   pause: () => Promise<void>;
   resume: () => Promise<void>;
   finish: () => Promise<void>;
-  distance: number;
+  distance?: Observable<number>;
 }

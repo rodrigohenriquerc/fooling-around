@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import { Subscription } from "rxjs";
 
 import { useSession } from "@/presentation/components/Session/Session.context";
 
@@ -14,19 +13,13 @@ export function SessionDistance({ style }: SessionDistanceProps) {
 
   const { value, measure } = formatDistance(distance);
 
-  const subscription = useRef<Subscription | undefined>(null);
-
   useEffect(() => {
-    subscription.current = session.distance?.subscribe(setDistance);
-    return () => subscription.current?.unsubscribe();
-  }, [session?.distance]);
+    if (!session.model) return setDistance(0);
 
-  useEffect(() => {
-    if (session.state === "idle") {
-      subscription.current?.unsubscribe();
-      setDistance(0);
-    }
-  }, [session.state]);
+    const sub = session.model.observeDistance().subscribe(setDistance);
+
+    return () => sub.unsubscribe();
+  }, [session.model]);
 
   return (
     <View style={[SessionDistanceStyles.container, style]}>

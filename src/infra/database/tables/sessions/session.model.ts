@@ -6,8 +6,7 @@ import {
   readonly,
   writer,
 } from "@nozbe/watermelondb/decorators";
-import { Subject } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, Subject } from "rxjs";
 
 import type { LocationLogModel } from "@/infra/database/tables/location-logs/location-log.model";
 import type { LocationLog } from "@/types/location.types";
@@ -31,22 +30,63 @@ export class SessionModel extends Model {
 
   @lazy path = this.locationLogs.extend(Q.sortBy("timestamp", Q.asc));
 
-  @lazy distance = this.path
-    .observe()
-    .pipe(map(calculateCoordinatesPathLength));
-
   newLocationLogs = new Subject<LocationLog[]>();
 
-  @writer async finish() {
-    try {
-      await this.update((session) => {
-        session.finishedAt = new Date();
+  observeDistance() {
+    return new Observable<number>((subscriber) => {
+      let totalDistance = 0;
+      let lastLocation: LocationLog | undefined;
+      let isInitialized = false;
+      const pendingUpdates: LocationLog[][] = [];
+
+      const processUpdate = (newLogs: LocationLog[]) => {
+        if (newLogs.length === 0) return;
+
+        let logsToProcess = newLogs;
+        if (lastLocation) {
+          logsToProcess = newLogs.filter(
+            (l) => l.timestamp > lastLocation!.timestamp,
+          );
+        }
+
+        if (logsToProcess.length === 0) return;
+
+        const newSegmentDistance =
+          calculateCoordinatesPathLength(logsToProcess);
+        let connectionDistance = 0;
+
+        if (lastLocation) {
+          connectionDistance = calculateCoordinatesPathLength([
+            lastLocation,
+            logsToProcess[0],
+          ]);
+        }
+
+        totalDistance += connectionDistance + newSegmentDistance;
+        lastLocation = logsToProcess[logsToProcess.length - 1];
+      };
+
+      const subscription = this.newLocationLogs.subscribe((newLogs) => {
+        if (isInitialized) {
+          processUpdate(newLogs);
+          subscriber.next(totalDistance);
+        } else {
+          pendingUpdates.push(newLogs);
+        }
       });
-    } catch (error) {
-      throw new Error("SessionModel failed to finish the session", {
-        cause: error,
+
+      this.path.fetch().then((initialLogs) => {
+        totalDistance = calculateCoordinatesPathLength(initialLogs);
+        lastLocation = initialLogs[initialLogs.length - 1];
+
+        pendingUpdates.forEach(processUpdate);
+
+        isInitialized = true;
+        subscriber.next(totalDistance);
       });
-    }
+
+      return () => subscription.unsubscribe();
+    });
   }
 
   @writer async addLocationLogs(locationLogs: LocationLog[]) {
@@ -67,7 +107,19 @@ export class SessionModel extends Model {
 
       await this.batch(...newLogs);
 
-      this.newLocationLogs.next(newLogs);
+      this.newLocationLogs.next(locationLogs);
+    } catch (error) {
+      throw new Error("SessionModel failed to finish the session", {
+        cause: error,
+      });
+    }
+  }
+
+  @writer async finish() {
+    try {
+      await this.update((session) => {
+        session.finishedAt = new Date();
+      });
     } catch (error) {
       throw new Error("SessionModel failed to finish the session", {
         cause: error,

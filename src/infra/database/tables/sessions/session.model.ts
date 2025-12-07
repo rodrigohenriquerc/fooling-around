@@ -2,6 +2,7 @@ import { Model, Q, Query } from "@nozbe/watermelondb";
 import {
   children,
   date,
+  field,
   lazy,
   readonly,
   writer,
@@ -12,18 +13,23 @@ import type { LocationLogModel } from "@/infra/database/tables/location-logs/loc
 import type { LocationLog } from "@/types/location.types";
 import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
 
+export type SessionStatus = "active" | "paused" | "finished";
+
 export class SessionModel extends Model {
   static table = "sessions";
   static associations = {
     location_logs: { type: "has_many", foreignKey: "session_id" },
   } as const;
 
+  @field("status")
+  status!: SessionStatus;
+
   @readonly
   @date("created_at")
   createdAt!: Date;
 
-  @date("finished_at")
-  finishedAt!: Date;
+  @date("updated_at")
+  updatedAt!: Date;
 
   @children("location_logs")
   locationLogs!: Query<LocationLogModel>;
@@ -115,10 +121,34 @@ export class SessionModel extends Model {
     }
   }
 
+  @writer async pause() {
+    try {
+      await this.update((session) => {
+        session.status = "paused";
+      });
+    } catch (error) {
+      throw new Error("SessionModel failed to pause the session", {
+        cause: error,
+      });
+    }
+  }
+
+  @writer async resume() {
+    try {
+      await this.update((session) => {
+        session.status = "active";
+      });
+    } catch (error) {
+      throw new Error("SessionModel failed to resume the session", {
+        cause: error,
+      });
+    }
+  }
+
   @writer async finish() {
     try {
       await this.update((session) => {
-        session.finishedAt = new Date();
+        session.status = "finished";
       });
     } catch (error) {
       throw new Error("SessionModel failed to finish the session", {
@@ -136,5 +166,17 @@ export class SessionModel extends Model {
         cause: error,
       });
     }
+  }
+
+  get isActive() {
+    return this.status === "active";
+  }
+
+  get isPaused() {
+    return this.status === "paused";
+  }
+
+  get isFinished() {
+    return this.status === "finished";
   }
 }

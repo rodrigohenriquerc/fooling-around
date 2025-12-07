@@ -1,7 +1,8 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 
 import { SessionModel } from "@/infra/database/tables/sessions";
-import { initializeSessionState } from "@/presentation/features/session";
+import { SessionState } from "@/presentation/features/session/session.types";
+import { initializeSessionState } from "@/presentation/features/session/state";
 import {
   finishSession,
   pauseSession,
@@ -9,7 +10,6 @@ import {
   startSession,
 } from "@/presentation/features/session/usecases";
 import { Logger } from "@/tools/monitoring";
-import { SessionState } from "@/types/session.types";
 
 import { SessionContext } from "./Session.context";
 

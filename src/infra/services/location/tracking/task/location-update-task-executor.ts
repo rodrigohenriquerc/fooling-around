@@ -13,7 +13,7 @@ export async function locationUpdateTaskExecutor(update: LocationUpdate) {
 
   try {
     const currentSession = await selectCurrentSession();
-    if (!currentSession) return;
+    if (!currentSession || !currentSession.isActive) return;
 
     const locationLogs = update.data.locations.map(
       ({ coords: { accuracy, latitude, longitude }, timestamp }) => ({

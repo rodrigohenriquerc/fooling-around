@@ -4,14 +4,22 @@ export const SessionsSchema = tableSchema({
   name: "sessions",
   columns: [
     {
-      name: "created_at",
-      type: "number",
+      name: "status",
+      type: "string",
+      isIndexed: true,
+      isOptional: false,
     },
     {
-      name: "finished_at",
+      name: "created_at",
       type: "number",
-      isOptional: true,
       isIndexed: true,
+      isOptional: false,
+    },
+    {
+      name: "updated_at",
+      type: "number",
+      isIndexed: true,
+      isOptional: true,
     },
   ],
 });

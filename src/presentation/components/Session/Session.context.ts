@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 
 import { SessionModel } from "@/infra/database/tables/sessions";
-import { SessionState } from "@/types/session.types";
+import { SessionState } from "@/presentation/features/session/session.types";
 
 export const SessionContext = createContext<Session | null>(null);
 

@@ -1,6 +1,10 @@
 import { TrackingModel } from "@/infra/database/models";
 import { TrackingsRepository } from "@/infra/database/repositories";
-import { LocationTracking } from "@/infra/location/tracking";
+import {
+  isTrackingLocation,
+  startTrackingLocation,
+  stopTrackingLocation,
+} from "@/infra/services/location";
 import { Logger } from "@/tools/monitoring";
 import { TrackingState } from "@/types/tracking.types";
 
@@ -18,13 +22,11 @@ export class TrackingService {
 
       this._trackingModel = currentTracking;
 
-      if (await LocationTracking.isTracking()) return "ongoing";
+      if (await isTrackingLocation()) return "ongoing";
 
       return "paused";
     } catch (error) {
       throw new Error("TrackingService failed to load state", { cause: error });
-    } finally {
-      console.log("Current tracking model id:", this._trackingModel?.id);
     }
   }
 
@@ -41,7 +43,7 @@ export class TrackingService {
           "Tried to create new tracking while another is unfinished",
         );
       }
-      await LocationTracking.start();
+      await startTrackingLocation();
     } catch (error) {
       await this._rollback();
       throw new Error("TrackingService failed to start", { cause: error });
@@ -50,7 +52,7 @@ export class TrackingService {
 
   async pause() {
     try {
-      await LocationTracking.stop();
+      await stopTrackingLocation();
     } catch (error) {
       throw new Error("TrackingService failed to pause", { cause: error });
     }
@@ -58,7 +60,7 @@ export class TrackingService {
 
   async resume() {
     try {
-      await LocationTracking.start();
+      await startTrackingLocation();
     } catch (error) {
       throw new Error("TrackingService failed to resume", { cause: error });
     }
@@ -67,7 +69,6 @@ export class TrackingService {
   async finish() {
     try {
       await this._trackingModel?.finish();
-      console.log("Finished tracking with id:", this._trackingModel?.id);
       this._trackingModel = null;
     } catch (error) {
       throw new Error("TrackingService failed to finish", { cause: error });
@@ -76,7 +77,7 @@ export class TrackingService {
 
   private async _rollback() {
     try {
-      await LocationTracking.stop();
+      await stopTrackingLocation();
       await this._trackingModel?.remove();
       this._trackingModel = null;
     } catch (error) {

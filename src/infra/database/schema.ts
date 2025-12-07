@@ -4,7 +4,7 @@ export default appSchema({
   version: 1,
   tables: [
     tableSchema({
-      name: "trackings",
+      name: "sessions",
       columns: [
         {
           name: "created_at",
@@ -19,7 +19,7 @@ export default appSchema({
       ],
     }),
     tableSchema({
-      name: "location_events",
+      name: "location_logs",
       columns: [
         {
           name: "latitude",
@@ -39,7 +39,7 @@ export default appSchema({
           isOptional: true,
         },
         {
-          name: "tracking_id",
+          name: "session_id",
           type: "string",
           isIndexed: true,
         },

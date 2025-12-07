@@ -1,2 +1,2 @@
-export * from "./location-event-model";
-export * from "./tracking-model";
+export * from "./location-log-model";
+export * from "./session-model";

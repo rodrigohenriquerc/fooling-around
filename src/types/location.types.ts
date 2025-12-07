@@ -3,7 +3,7 @@ export interface Coordinates {
   longitude: number;
 }
 
-export interface LocationEvent extends Coordinates {
+export interface LocationLog extends Coordinates {
   accuracy: number | null;
   timestamp: number;
 }

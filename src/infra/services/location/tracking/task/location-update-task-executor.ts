@@ -2,8 +2,8 @@ import { LocationObject } from "expo-location";
 import { TaskManagerError } from "expo-task-manager";
 
 import {
-  LocationEventsRepository,
-  TrackingsRepository,
+  LocationLogsRepository,
+  SessionsRepository,
 } from "@/infra/database/repositories";
 import { Logger } from "@/tools/monitoring";
 
@@ -20,7 +20,7 @@ export async function locationUpdateTaskExecutor(update: LocationUpdate) {
   if (!update.data?.locations?.length) return;
 
   try {
-    const tracking = await TrackingsRepository.getCurrentTracking();
+    const tracking = await SessionsRepository.getCurrentSession();
     if (!tracking) return;
 
     const { locations: newLocations } = update.data;
@@ -34,7 +34,7 @@ export async function locationUpdateTaskExecutor(update: LocationUpdate) {
       }),
     );
 
-    await LocationEventsRepository.createLocationEvents(
+    await LocationLogsRepository.createLocationLogs(
       tracking.id,
       locationEvents,
     );

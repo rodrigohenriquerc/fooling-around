@@ -1,5 +1,5 @@
-import { TrackingModel } from "@/infra/database/models";
-import { TrackingsRepository } from "@/infra/database/repositories";
+import { SessionModel } from "@/infra/database/models";
+import { SessionsRepository } from "@/infra/database/repositories";
 import {
   isTrackingLocation,
   startTrackingLocation,
@@ -9,11 +9,11 @@ import { Logger } from "@/tools/monitoring";
 import { TrackingState } from "@/types/tracking.types";
 
 export class TrackingService {
-  private _trackingModel: TrackingModel | null = null;
+  private _trackingModel: SessionModel | null = null;
 
   async init(): Promise<TrackingState> {
     try {
-      const currentTracking = await TrackingsRepository.getCurrentTracking();
+      const currentTracking = await SessionsRepository.getCurrentSession();
 
       if (!currentTracking) {
         this._trackingModel = null;
@@ -32,10 +32,10 @@ export class TrackingService {
 
   async start() {
     try {
-      const currentTracking = await TrackingsRepository.getCurrentTracking();
+      const currentTracking = await SessionsRepository.getCurrentSession();
 
       if (!currentTracking) {
-        this._trackingModel = await TrackingsRepository.createTracking();
+        this._trackingModel = await SessionsRepository.createSession();
       } else {
         this._trackingModel = currentTracking;
 

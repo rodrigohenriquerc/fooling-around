@@ -7,12 +7,12 @@ import {
   readonly,
 } from "@nozbe/watermelondb/decorators";
 
-import type { TrackingModel } from "./tracking-model";
+import type { SessionModel } from "./session-model";
 
-export class LocationEventModel extends Model {
-  static table = "location_events";
+export class LocationLogModel extends Model {
+  static table = "location_logs";
   static associations = {
-    trackings: { type: "belongs_to", key: "tracking_id" },
+    sessions: { type: "belongs_to", key: "session_id" },
   } as const;
 
   @nochange
@@ -32,13 +32,13 @@ export class LocationEventModel extends Model {
   accuracy!: number | null;
 
   @nochange
-  @field("tracking_id")
-  trackingId!: string;
+  @field("session_id")
+  sessionId!: string;
 
   @readonly
   @date("created_at")
   createdAt!: Date;
 
-  @immutableRelation("trackings", "tracking_id")
-  tracking!: Relation<TrackingModel>;
+  @immutableRelation("sessions", "session_id")
+  session!: Relation<SessionModel>;
 }

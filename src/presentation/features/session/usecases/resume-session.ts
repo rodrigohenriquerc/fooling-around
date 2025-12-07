@@ -7,9 +7,11 @@ export async function resumeSession() {
 
     const currentSession = await selectCurrentSession();
 
-    if (!currentSession) throw "There is no ongoing session to pause";
+    if (!currentSession) {
+      throw new Error("There is no stopped session to resume");
+    }
 
-    await currentSession.pause();
+    await currentSession.resume();
   } catch (error) {
     throw new Error("Failed to resume session", { cause: error });
   }

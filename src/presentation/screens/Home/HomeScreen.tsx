@@ -12,7 +12,7 @@ import { HomeScreenStyles } from "./HomeScreen.styles";
 export function HomeScreen() {
   const tracking = useTracking();
 
-  const onPressTrackingControllerBtn = (action: SessionAction) => {
+  const onPressSessionControllerBtn = (action: SessionAction) => {
     tracking[action]();
   };
 
@@ -24,7 +24,7 @@ export function HomeScreen() {
       />
       <SessionController
         state={tracking.state}
-        onPress={onPressTrackingControllerBtn}
+        onPress={onPressSessionControllerBtn}
         style={HomeScreenStyles.sessionButton}
       />
     </View>

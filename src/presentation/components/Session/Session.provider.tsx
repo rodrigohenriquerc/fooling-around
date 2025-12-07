@@ -1,13 +1,13 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 
 import { SessionModel } from "@/infra/database/tables/sessions";
-import { initializeSession } from "@/modules/session/services/initialize-session";
+import { initializeSessionState } from "@/presentation/features/session";
 import {
   finishSession,
   pauseSession,
   resumeSession,
   startSession,
-} from "@/modules/session/usecases";
+} from "@/presentation/features/session/usecases";
 import { Logger } from "@/tools/monitoring";
 import { SessionState } from "@/types/session.types";
 
@@ -63,7 +63,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     const init = async () => {
       try {
-        const initialSession = await initializeSession();
+        const initialSession = await initializeSessionState();
 
         setState(initialSession.state);
         setSession(initialSession.model);

@@ -3,7 +3,7 @@ import { SessionModel } from "@/infra/database/tables/sessions";
 import { isTrackingLocation } from "@/infra/services/location";
 import { SessionState } from "@/types/session.types";
 
-export async function initializeSession(): Promise<{
+export async function initializeSessionState(): Promise<{
   model: SessionModel | null;
   state: SessionState;
 }> {

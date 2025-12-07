@@ -9,6 +9,7 @@ import {
 import { map } from "rxjs/operators";
 
 import type { LocationLogModel } from "@/infra/database/tables/location-logs/location-log.model";
+import type { LocationLog } from "@/types/location.types";
 import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
 
 export class SessionModel extends Model {
@@ -38,6 +39,30 @@ export class SessionModel extends Model {
       await this.update((session) => {
         session.finishedAt = new Date();
       });
+    } catch (error) {
+      throw new Error("SessionModel failed to finish the session", {
+        cause: error,
+      });
+    }
+  }
+
+  @writer async addLocationLogs(locations: LocationLog[]) {
+    try {
+      const newLogs = locations.map(
+        ({ latitude, longitude, accuracy, timestamp }) => {
+          return this.collections
+            .get<LocationLogModel>("location_logs")
+            .prepareCreate((log) => {
+              log.latitude = latitude;
+              log.longitude = longitude;
+              log.timestamp = timestamp;
+              log.accuracy = accuracy;
+              log.session.set(this);
+            });
+        },
+      );
+
+      await this.batch(...newLogs);
     } catch (error) {
       throw new Error("SessionModel failed to finish the session", {
         cause: error,

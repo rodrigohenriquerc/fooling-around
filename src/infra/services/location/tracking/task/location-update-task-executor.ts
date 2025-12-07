@@ -1,10 +1,7 @@
 import { LocationObject } from "expo-location";
 import { TaskManagerError } from "expo-task-manager";
 
-import {
-  createLocationLogs,
-  selectCurrentSession,
-} from "@/infra/database/repositories";
+import { selectCurrentSession } from "@/infra/database/repositories";
 import { Logger } from "@/tools/monitoring";
 
 import { LOCATION_UPDATE_TASK_NAME } from "./location-update-task-config";
@@ -27,7 +24,7 @@ export async function locationUpdateTaskExecutor(update: LocationUpdate) {
       }),
     );
 
-    await createLocationLogs(currentSession.id, locationLogs);
+    await currentSession.addLocationLogs(locationLogs);
   } catch (error) {
     Logger.logError(`${LOCATION_UPDATE_TASK_NAME} failed`, error);
   }

@@ -1,6 +1,6 @@
 import { tableSchema } from "@nozbe/watermelondb";
 
-export const SessionSchema = tableSchema({
+export const SessionsSchema = tableSchema({
   name: "sessions",
   columns: [
     {

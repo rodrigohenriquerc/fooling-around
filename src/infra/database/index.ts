@@ -5,14 +5,14 @@ import { Logger } from "@/tools/monitoring";
 
 import migrations from "./migrations";
 import { LocationLogModel, LocationLogsSchema } from "./tables/location-logs";
-import { SessionModel, SessionSchema } from "./tables/sessions";
+import { SessionModel, SessionsSchema } from "./tables/sessions";
 
 export default new Database({
   adapter: new SQLiteAdapter({
     dbName: "fool-db",
     schema: appSchema({
       version: 1,
-      tables: [LocationLogsSchema, SessionSchema],
+      tables: [LocationLogsSchema, SessionsSchema],
     }),
     migrations,
     onSetUpError: (error) => {

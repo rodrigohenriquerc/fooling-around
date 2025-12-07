@@ -15,7 +15,7 @@ export async function startSession() {
     const currentSession = await selectCurrentSession();
 
     if (currentSession) {
-      throw "Not allowed while another session is ongoing";
+      throw new Error("Not allowed while another session is ongoing");
     }
 
     newSession = await createSession();

@@ -9,12 +9,12 @@ import {
   stopTrackingLocation,
 } from "@/infra/services/location";
 import { Logger } from "@/tools/monitoring";
-import { TrackingState } from "@/types/tracking.types";
+import { SessionState } from "@/types/session.types";
 
 export class TrackingService {
   private _trackingModel: SessionModel | null = null;
 
-  async init(): Promise<TrackingState> {
+  async init(): Promise<SessionState> {
     try {
       const currentSession = await selectCurrentSession();
 

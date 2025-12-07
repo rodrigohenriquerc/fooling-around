@@ -5,14 +5,14 @@ import {
   TrackingDistance,
 } from "@/presentation/components/Tracking";
 import { useTracking } from "@/presentation/hooks/useTracking";
-import { TrackingAction } from "@/types/tracking.types";
+import { SessionAction } from "@/types/session.types";
 
 import { HomeScreenStyles } from "./HomeScreen.styles";
 
 export function HomeScreen() {
   const tracking = useTracking();
 
-  const onPressTrackingControllerBtn = (action: TrackingAction) => {
+  const onPressTrackingControllerBtn = (action: SessionAction) => {
     tracking[action]();
   };
 

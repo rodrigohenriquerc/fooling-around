@@ -1,9 +1,9 @@
 import { StyleProp, ViewStyle } from "react-native";
 
-import { TrackingAction, TrackingState } from "@/types/tracking.types";
+import { SessionAction, SessionState } from "@/types/session.types";
 
 export interface TrackingControllerProps {
-  state: TrackingState;
-  onPress: (action: TrackingAction) => void;
+  state: SessionState;
+  onPress: (action: SessionAction) => void;
   style?: StyleProp<ViewStyle>;
 }

@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 
 import { TrackingService } from "@/services/tracking-service";
 import { Logger } from "@/tools/monitoring";
-import { TrackingState } from "@/types/tracking.types";
+import { SessionState } from "@/types/session.types";
 
 const trackingService = new TrackingService();
 
 export const useTracking = () => {
-  const [trackingState, setTrackingState] = useState<TrackingState>("idle");
+  const [trackingState, setTrackingState] = useState<SessionState>("idle");
 
   const start = async () => {
     try {

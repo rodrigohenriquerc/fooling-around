@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 import { colors } from "@/presentation/styles/theme";
 
-export const TrackingDistanceStyles = StyleSheet.create({
+export const SessionDistanceStyles = StyleSheet.create({
   container: {
     alignItems: "center",
   },

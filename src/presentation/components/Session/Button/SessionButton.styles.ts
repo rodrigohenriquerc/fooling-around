@@ -4,7 +4,7 @@ import { colors } from "@/presentation/styles/theme";
 
 const BTN_SIZE = 100;
 
-export const TrackingButtonStyles = StyleSheet.create({
+export const SessionButtonStyles = StyleSheet.create({
   btn: {
     width: BTN_SIZE,
     height: BTN_SIZE,

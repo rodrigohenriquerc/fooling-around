@@ -1,18 +1,18 @@
 import { View } from "react-native";
 
-import { TrackingButton } from "@/presentation/components/Tracking/Button/TrackingButton";
+import { SessionButton } from "@/presentation/components/Session/Button/SessionButton";
 
-import { TrackingControllerStyles } from "./TrackingController.styles";
-import { TrackingControllerProps } from "./TrackingController.types";
+import { SessionControllerStyles } from "./SessionController.styles";
+import { SessionControllerProps } from "./SessionController.types";
 
-export function TrackingController({
+export function SessionController({
   state,
   onPress,
   style,
-}: TrackingControllerProps) {
+}: SessionControllerProps) {
   if (state === "idle") {
     return (
-      <TrackingButton
+      <SessionButton
         icon="play"
         variant="primary"
         onPress={() => onPress("start")}
@@ -23,7 +23,7 @@ export function TrackingController({
 
   if (state === "ongoing") {
     return (
-      <TrackingButton
+      <SessionButton
         icon="pause"
         variant="secondary"
         onPress={() => onPress("pause")}
@@ -34,21 +34,21 @@ export function TrackingController({
 
   if (state === "paused") {
     return (
-      <View style={[TrackingControllerStyles.row, style]}>
-        <TrackingButton
+      <View style={[SessionControllerStyles.row, style]}>
+        <SessionButton
           icon="play"
           label="Resume"
           variant="secondary"
           onPress={() => onPress("resume")}
-          style={TrackingControllerStyles.rowButton}
+          style={SessionControllerStyles.rowButton}
         />
 
-        <TrackingButton
+        <SessionButton
           icon="stop"
           label="Finish"
           variant="secondary"
           onPress={() => onPress("finish")}
-          style={TrackingControllerStyles.rowButton}
+          style={SessionControllerStyles.rowButton}
         />
       </View>
     );

@@ -2,16 +2,16 @@ import { IconProps } from "@expo/vector-icons/build/createIconSet";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Text, TouchableOpacity } from "react-native";
 
-import { TrackingButtonStyles } from "./TrackingButton.styles";
-import { TrackingButtonProps } from "./TrackingButton.types";
+import { SessionButtonStyles } from "./SessionButton.styles";
+import { SessionButtonProps } from "./SessionButton.types";
 
-export function TrackingButton({
+export function SessionButton({
   icon,
   variant,
   label,
   onPress,
   style,
-}: TrackingButtonProps) {
+}: SessionButtonProps) {
   const iconProps: Pick<
     IconProps<"controller-play" | "controller-stop" | "controller-paus">,
     "name" | "style"
@@ -35,20 +35,20 @@ export function TrackingButton({
     <TouchableOpacity
       onPress={onPress}
       style={[
-        TrackingButtonStyles.btn,
-        TrackingButtonStyles[`btn_${variant}`],
-        label && TrackingButtonStyles.btnWithLabel,
+        SessionButtonStyles.btn,
+        SessionButtonStyles[`btn_${variant}`],
+        label && SessionButtonStyles.btnWithLabel,
         style,
       ]}
     >
       <Entypo
         size={label ? 40 : 48}
-        color={TrackingButtonStyles[`btn_${variant}_icon`].color}
+        color={SessionButtonStyles[`btn_${variant}_icon`].color}
         {...iconProps}
         style={iconProps.style}
       />
 
-      {!!label && <Text style={TrackingButtonStyles.label}>{label}</Text>}
+      {!!label && <Text style={SessionButtonStyles.label}>{label}</Text>}
     </TouchableOpacity>
   );
 }

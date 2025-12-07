@@ -9,10 +9,10 @@ export const HomeScreenStyles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.secondary,
   },
-  trackingDistance: {
+  sessionDistance: {
     transform: [{ translateY: "-50%" }],
   },
-  trackingButton: {
+  sessionButton: {
     position: "absolute",
     bottom: 80,
   },

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const TrackingControllerStyles = StyleSheet.create({
+export const SessionControllerStyles = StyleSheet.create({
   row: {
     width: "100%",
     flexDirection: "row",

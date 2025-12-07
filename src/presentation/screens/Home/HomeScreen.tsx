@@ -1,9 +1,9 @@
 import { View } from "react-native";
 
 import {
-  TrackingController,
-  TrackingDistance,
-} from "@/presentation/components/Tracking";
+  SessionController,
+  SessionDistance,
+} from "@/presentation/components/Session";
 import { useTracking } from "@/presentation/hooks/useTracking";
 import { SessionAction } from "@/types/session.types";
 
@@ -18,14 +18,14 @@ export function HomeScreen() {
 
   return (
     <View style={HomeScreenStyles.container}>
-      <TrackingDistance
+      <SessionDistance
         distance={1000000}
-        style={HomeScreenStyles.trackingDistance}
+        style={HomeScreenStyles.sessionDistance}
       />
-      <TrackingController
+      <SessionController
         state={tracking.state}
         onPress={onPressTrackingControllerBtn}
-        style={HomeScreenStyles.trackingButton}
+        style={HomeScreenStyles.sessionButton}
       />
     </View>
   );

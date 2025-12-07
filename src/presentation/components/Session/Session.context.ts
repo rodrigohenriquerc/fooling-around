@@ -21,4 +21,5 @@ interface Session {
   pause: () => Promise<void>;
   resume: () => Promise<void>;
   finish: () => Promise<void>;
+  distance: number;
 }

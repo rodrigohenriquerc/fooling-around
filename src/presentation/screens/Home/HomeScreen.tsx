@@ -12,10 +12,7 @@ export function HomeScreen() {
   return (
     <View style={HomeScreenStyles.container}>
       <Session>
-        <SessionDistance
-          distance={1000000}
-          style={HomeScreenStyles.sessionDistance}
-        />
+        <SessionDistance style={HomeScreenStyles.sessionDistance} />
         <SessionController style={HomeScreenStyles.sessionButton} />
       </Session>
     </View>

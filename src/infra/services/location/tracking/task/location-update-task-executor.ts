@@ -10,8 +10,6 @@ import { Logger } from "@/tools/monitoring";
 import { LOCATION_UPDATE_TASK_NAME } from "./location-update-task-config";
 
 export async function locationUpdateTaskExecutor(update: LocationUpdate) {
-  console.log("locationUpdateTaskExecutor");
-
   if (update.error) throw update.error;
 
   if (!update.data?.locations?.length) {
@@ -31,8 +29,6 @@ export async function locationUpdateTaskExecutor(update: LocationUpdate) {
         timestamp,
       }),
     );
-
-    console.log("locationLogs:", locationLogs);
 
     await createLocationLogs(currentSession.id, locationLogs);
   } catch (error) {

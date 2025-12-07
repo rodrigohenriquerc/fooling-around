@@ -1,12 +1,15 @@
-import { Model, Query } from "@nozbe/watermelondb";
+import { Model, Q, Query } from "@nozbe/watermelondb";
 import {
   children,
   date,
+  lazy,
   readonly,
   writer,
 } from "@nozbe/watermelondb/decorators";
+import { map } from "rxjs/operators";
 
 import type { LocationLogModel } from "@/infra/database/tables/location-logs/location-log.model";
+import { calculateCoordinatesPathLength } from "@/utils/geo.utils";
 
 export class SessionModel extends Model {
   static table = "sessions";
@@ -23,6 +26,12 @@ export class SessionModel extends Model {
 
   @children("location_logs")
   locationLogs!: Query<LocationLogModel>;
+
+  @lazy path = this.locationLogs.extend(Q.sortBy("timestamp", Q.asc));
+
+  @lazy distance = this.path
+    .observe()
+    .pipe(map(calculateCoordinatesPathLength));
 
   @writer async finish() {
     try {

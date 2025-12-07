@@ -1,10 +1,14 @@
 import { Text, View } from "react-native";
 
+import { useSession } from "@/presentation/components/Session/Session.context";
+
 import { SessionDistanceStyles } from "./SessionDistance.styles";
 import { SessionDistanceProps } from "./SessionDistance.types";
 
-export function SessionDistance({ distance, style }: SessionDistanceProps) {
-  const { value, measure } = formatDistance(distance);
+export function SessionDistance({ style }: SessionDistanceProps) {
+  const session = useSession();
+
+  const { value, measure } = formatDistance(session.distance);
 
   return (
     <View style={[SessionDistanceStyles.container, style]}>

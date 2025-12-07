@@ -6,6 +6,7 @@ import {
   readonly,
   writer,
 } from "@nozbe/watermelondb/decorators";
+import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
 
 import type { LocationLogModel } from "@/infra/database/tables/location-logs/location-log.model";
@@ -34,6 +35,8 @@ export class SessionModel extends Model {
     .observe()
     .pipe(map(calculateCoordinatesPathLength));
 
+  newLocationLogs = new Subject<LocationLog[]>();
+
   @writer async finish() {
     try {
       await this.update((session) => {
@@ -46,9 +49,9 @@ export class SessionModel extends Model {
     }
   }
 
-  @writer async addLocationLogs(locations: LocationLog[]) {
+  @writer async addLocationLogs(locationLogs: LocationLog[]) {
     try {
-      const newLogs = locations.map(
+      const newLogs = locationLogs.map(
         ({ latitude, longitude, accuracy, timestamp }) => {
           return this.collections
             .get<LocationLogModel>("location_logs")
@@ -63,6 +66,8 @@ export class SessionModel extends Model {
       );
 
       await this.batch(...newLogs);
+
+      this.newLocationLogs.next(newLogs);
     } catch (error) {
       throw new Error("SessionModel failed to finish the session", {
         cause: error,

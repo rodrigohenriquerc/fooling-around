@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 
 import { SessionModel } from "@/infra/database/tables/sessions";
-import { getSessionState } from "@/modules/session/services/get-session-state";
+import { initializeSession } from "@/modules/session/services/initialize-session";
 import {
   finishSession,
   pauseSession,
@@ -63,9 +63,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     const init = async () => {
       try {
-        const { state, session } = await getSessionState();
-        setState(state);
-        setSession(session);
+        const initialSession = await initializeSession();
+
+        setState(initialSession.state);
+        setSession(initialSession.model);
       } catch (error) {
         Logger.logError("Failed to initialize session", error);
       }
@@ -82,7 +83,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         pause,
         resume,
         finish,
-        distance: session?.distance,
+        model: session,
       }}
     >
       {children}

@@ -3,20 +3,20 @@ import { SessionModel } from "@/infra/database/tables/sessions";
 import { isTrackingLocation } from "@/infra/services/location";
 import { SessionState } from "@/types/session.types";
 
-export async function getSessionState(): Promise<{
-  session: SessionModel | null;
+export async function initializeSession(): Promise<{
+  model: SessionModel | null;
   state: SessionState;
 }> {
   try {
     const currentSession = await selectCurrentSession();
 
-    if (!currentSession) return { session: null, state: "idle" };
+    if (!currentSession) return { model: null, state: "idle" };
 
     if (await isTrackingLocation()) {
-      return { session: currentSession, state: "ongoing" };
+      return { model: currentSession, state: "ongoing" };
     }
 
-    return { session: currentSession, state: "paused" };
+    return { model: currentSession, state: "paused" };
   } catch (error) {
     throw new Error("Failed to get session state", { cause: error });
   }

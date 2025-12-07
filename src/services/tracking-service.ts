@@ -1,5 +1,8 @@
 import { SessionModel } from "@/infra/database/models";
-import { SessionsRepository } from "@/infra/database/repositories";
+import {
+  createSession,
+  selectCurrentSession,
+} from "@/infra/database/repositories";
 import {
   isTrackingLocation,
   startTrackingLocation,
@@ -13,14 +16,14 @@ export class TrackingService {
 
   async init(): Promise<TrackingState> {
     try {
-      const currentTracking = await SessionsRepository.getCurrentSession();
+      const currentSession = await selectCurrentSession();
 
-      if (!currentTracking) {
+      if (!currentSession) {
         this._trackingModel = null;
         return "idle";
       }
 
-      this._trackingModel = currentTracking;
+      this._trackingModel = currentSession;
 
       if (await isTrackingLocation()) return "ongoing";
 
@@ -32,12 +35,12 @@ export class TrackingService {
 
   async start() {
     try {
-      const currentTracking = await SessionsRepository.getCurrentSession();
+      const currentSession = await selectCurrentSession();
 
-      if (!currentTracking) {
-        this._trackingModel = await SessionsRepository.createSession();
+      if (!currentSession) {
+        this._trackingModel = await createSession();
       } else {
-        this._trackingModel = currentTracking;
+        this._trackingModel = currentSession;
 
         Logger.logWarning(
           "Tried to create new tracking while another is unfinished",

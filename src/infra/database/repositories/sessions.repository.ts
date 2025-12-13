@@ -21,7 +21,7 @@ export async function selectCurrentSession() {
   try {
     return await database.read(async () => {
       const selected = await SessionsCollection.query(
-        Q.where("state", Q.eq("active")),
+        Q.where("state", Q.oneOf(["active", "paused"])),
         Q.take(1),
       ).fetch();
 

@@ -9,7 +9,7 @@ export async function createSession() {
   try {
     return await database.write(async () => {
       return await SessionsCollection.create((session) => {
-        session.status = "active";
+        session.state = "active";
       });
     });
   } catch (error) {
@@ -21,7 +21,7 @@ export async function selectCurrentSession() {
   try {
     return await database.read(async () => {
       const selected = await SessionsCollection.query(
-        Q.where("status", Q.eq("ongoing")),
+        Q.where("state", Q.eq("active")),
         Q.take(1),
       ).fetch();
 

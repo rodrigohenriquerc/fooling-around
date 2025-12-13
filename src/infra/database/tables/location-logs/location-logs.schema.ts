@@ -18,12 +18,10 @@ export const LocationLogsSchema = tableSchema({
     {
       name: "accuracy",
       type: "number",
-      isOptional: true,
     },
     {
       name: "session_id",
       type: "string",
-      isIndexed: true,
     },
     {
       name: "created_at",

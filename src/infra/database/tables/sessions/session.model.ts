@@ -21,15 +21,12 @@ export class SessionModel extends Model {
     location_logs: { type: "has_many", foreignKey: "session_id" },
   } as const;
 
-  @field("status")
-  status!: SessionStatus;
+  @field("state")
+  state!: SessionStatus;
 
   @readonly
   @date("created_at")
   createdAt!: Date;
-
-  @date("updated_at")
-  updatedAt!: Date;
 
   @children("location_logs")
   locationLogs!: Query<LocationLogModel>;
@@ -124,7 +121,7 @@ export class SessionModel extends Model {
   @writer async pause() {
     try {
       await this.update((session) => {
-        session.status = "paused";
+        session.state = "paused";
       });
     } catch (error) {
       throw new Error("SessionModel failed to pause the session", {
@@ -136,7 +133,7 @@ export class SessionModel extends Model {
   @writer async resume() {
     try {
       await this.update((session) => {
-        session.status = "active";
+        session.state = "active";
       });
     } catch (error) {
       throw new Error("SessionModel failed to resume the session", {
@@ -148,7 +145,7 @@ export class SessionModel extends Model {
   @writer async finish() {
     try {
       await this.update((session) => {
-        session.status = "finished";
+        session.state = "finished";
       });
     } catch (error) {
       throw new Error("SessionModel failed to finish the session", {
@@ -169,14 +166,14 @@ export class SessionModel extends Model {
   }
 
   get isActive() {
-    return this.status === "active";
+    return this.state === "active";
   }
 
   get isPaused() {
-    return this.status === "paused";
+    return this.state === "paused";
   }
 
   get isFinished() {
-    return this.status === "finished";
+    return this.state === "finished";
   }
 }
